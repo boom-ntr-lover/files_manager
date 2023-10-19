@@ -1,0 +1,22 @@
+{
+  "name": "xx_files_manager",
+  "version": "0.0.1",
+  "description": "xx files manager",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boom-ntr-lover/xx_files_manager.git"
+  },
+  "author": "boom-ntr-lover",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/boom-ntr-lover/xx_files_manager/issues"
+  },
+  "homepage": "https://github.com/boom-ntr-lover/xx_files_manager#readme",
+  "devDependencies": {
+    "electron": "^27.0.1"
+  }
+}
