@@ -6,7 +6,7 @@
         variant="tonal"
         @click="load()"
     >
-        Count is: {{ count }}
+        TestBtn {{ count }}
     </v-btn>
 </template>
 
@@ -15,7 +15,7 @@
 </style>
 
 <script setup>
-import { ref, onMounted, Vue } from 'vue'
+import { ref, onMounted } from 'vue'
 import { ipcRenderer } from 'electron'
 
 const loading = ref(false)
@@ -29,9 +29,7 @@ onMounted(
 
 function setupIpcRenderer()
 {
-    ipcRenderer.on('test_reply_message', function (args){
-        // console.log("Reply: ", args)
-
+    ipcRenderer.on('reply_test_message', function (args){
         loading.value = false
         count.value++
     }.bind(loading))
@@ -39,7 +37,7 @@ function setupIpcRenderer()
 
 function load() {
     this.loading = true
-    ipcRenderer.send('test_send_message', 'Hello from renderer process!')
+    ipcRenderer.send('send_test_message', 'Hello from renderer process!')
 }
 
 </script>

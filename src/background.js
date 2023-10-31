@@ -1,8 +1,9 @@
 'use strict'
 
-import {app, protocol, BrowserWindow, ipcMain } from 'electron'
+import {app, protocol, BrowserWindow } from 'electron'
 import {createProtocol} from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, {VUEJS3_DEVTOOLS} from 'electron-devtools-installer'
+import ipcRouter from './background/IpcRouter'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -25,9 +26,8 @@ async function createWindow()
         }
     })
 
-    ipcMain.on('test_send_message', (event, arg) => {
-        event.reply('test_reply_message', 'Hello from main process!')
-    })
+    // 注册ipc事件
+    ipcRouter.init()
 
     if (process.env.WEBPACK_DEV_SERVER_URL)
     {
