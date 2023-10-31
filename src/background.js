@@ -25,9 +25,8 @@ async function createWindow()
         }
     })
 
-    ipcMain.on('message', (event, arg) => {
-        console.log('get message', arg)
-        event.reply('reply', 'Hello from main process!')
+    ipcMain.on('test_send_message', (event, arg) => {
+        event.reply('test_reply_message', 'Hello from main process!')
     })
 
     if (process.env.WEBPACK_DEV_SERVER_URL)

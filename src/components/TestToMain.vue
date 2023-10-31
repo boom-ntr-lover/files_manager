@@ -1,4 +1,3 @@
-
 <template>
     <v-btn
         :loading="loading"
@@ -16,23 +15,31 @@
 </style>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, Vue } from 'vue'
 import { ipcRenderer } from 'electron'
 
 const loading = ref(false)
 const count = ref(0)
 
-// 生命周期钩子
-onMounted(() => {
-    ipcRenderer.on('reply', (event, arg) => {
-        console.log('get reply', arg)
-    })
-})
+onMounted(
+    () => {
+        setupIpcRenderer()
+    }
+)
+
+function setupIpcRenderer()
+{
+    ipcRenderer.on('test_reply_message', function (args){
+        // console.log("Reply: ", args)
+
+        loading.value = false
+        count.value++
+    }.bind(loading))
+}
 
 function load() {
     this.loading = true
-    console.log("Send")
-    ipcRenderer.send('message', 'Hello from renderer process!')
+    ipcRenderer.send('test_send_message', 'Hello from renderer process!')
 }
 
 </script>
