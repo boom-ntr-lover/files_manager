@@ -5,7 +5,7 @@
         class="flex-grow-1"
         height="48"
         variant="tonal"
-        @click="count++"
+        @click="load()"
     >
         Count is: {{ count }}
     </v-btn>
@@ -15,24 +15,24 @@
 
 </style>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue'
+import { ipcRenderer } from 'electron'
 
-export default {
-    data: () => ({
-        loading: false,
-        count: 0,
-    }),
+const loading = ref(false)
+const count = ref(0)
 
-    props: {
-        msg: String
-    },
+// 生命周期钩子
+onMounted(() => {
+    ipcRenderer.on('reply', (event, arg) => {
+        console.log('get reply', arg)
+    })
+})
 
-    methods: {
-        load () {
-            this.loading = true
-            setTimeout(() => (this.loading = false), 3000)
-        },
-    },
+function load() {
+    this.loading = true
+    console.log("Send")
+    ipcRenderer.send('message', 'Hello from renderer process!')
 }
 
 </script>

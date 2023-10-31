@@ -1,6 +1,6 @@
 'use strict'
 
-import {app, protocol, BrowserWindow } from 'electron'
+import {app, protocol, BrowserWindow, ipcMain } from 'electron'
 import {createProtocol} from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, {VUEJS3_DEVTOOLS} from 'electron-devtools-installer'
 
@@ -25,13 +25,18 @@ async function createWindow()
         }
     })
 
+    ipcMain.on('message', (event, arg) => {
+        console.log('get message', arg)
+        event.reply('reply', 'Hello from main process!')
+    })
+
     if (process.env.WEBPACK_DEV_SERVER_URL)
     {
         // Load the url of the dev server if in development mode
         await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
 
         // 是否默认打开调试界面
-        // if (!process.env.IS_TEST) win.webContents.openDevTools()
+        if (!process.env.IS_TEST) win.webContents.openDevTools()
     } else
     {
         createProtocol('app')
