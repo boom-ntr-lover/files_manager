@@ -42,7 +42,7 @@
       "parser": "@babel/eslint-parser"
     },
     "rules": {
-        "no-unused-vars": "off"
+      "no-unused-vars": "off"
     }
   },
   "browserslist": [
@@ -50,5 +50,6 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "__npminstall_done": false
 }
