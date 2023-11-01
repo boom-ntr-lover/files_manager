@@ -1,16 +1,21 @@
 <template>
-    <h1>Hello World!</h1>
-    <TestToMain></TestToMain>
+  <v-app>
+    <v-main>
+      <router-view />
+    </v-main>
+  </v-app>
 </template>
 
-<script>
-import TestToMain from './components/TestToMain.vue'
+<script lang="ts">
+import { defineComponent } from "vue";
 
-export default {
-    name: 'App',
-    components:
-        {
-            TestToMain,
-        }
-}
+export default defineComponent({
+  name: "App",
+
+  data() {
+    return {
+      //
+    };
+  },
+});
 </script>

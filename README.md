@@ -1,23 +1,23 @@
-# xx_file_manager
+# files_manager
 
 ## Project setup
 ```
-npm install
+yarn install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-npm run electron:serve
+yarn serve
 ```
 
 ### Compiles and minifies for production
 ```
-npm run electron:build
+yarn build
 ```
 
 ### Lints and fixes files
 ```
-npm run electron:lint
+yarn lint
 ```
 
 ### Customize configuration
