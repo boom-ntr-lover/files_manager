@@ -1,62 +1,70 @@
 <template>
-    <v-form v-model="valid">
-        <v-container>
-            <v-row>
-                <v-col
-                    cols="12"
-                    md="4"
-                >
-                    <v-text-field
-                        v-model="firstname"
-                        :rules="nameRules"
-                        :counter="10"
-                        label="First name"
-                        required
-                        hide-details
-                    ></v-text-field>
-                </v-col>
+    <div class="text-center">
 
-                <v-col
-                    cols="12"
-                    md="4"
-                >
-                    <v-text-field
-                        v-model="lastname"
-                        :rules="nameRules"
-                        :counter="10"
-                        label="Last name"
-                        hide-details
-                        required
-                    ></v-text-field>
-                </v-col>
-            </v-row>
-        </v-container>
-    </v-form>
+        <v-btn
+            :disabled="dialog"
+            :loading="dialog"
+            color="purple-darken-2"
+            @click="dialog = true"
+        >
+            Start loading
+        </v-btn>
+
+        <v-dialog
+            v-model="dialog"
+            :scrim="false"
+            persistent
+            width="auto"
+        >
+            <v-card
+                color="primary"
+            >
+                <v-card-text>
+                    Please stand by
+                    <v-progress-linear
+                        indeterminate
+                        color="white"
+                        class="mb-0"
+                    ></v-progress-linear>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
+
+    </div>
 </template>
-
 <script>
 
 export default {
-    name: 'LoginView',
+    data()
+    {
+        return {
+            dialog: false,
+        }
+    },
 
-    data: () => ({
-        valid: false,
-        firstname: '',
-        lastname: '',
-        nameRules: [
-            value =>
-            {
-                if (value) return true
+    watch: {
+        dialog(val)
+        {
+            if (!val) return
 
-                return 'Name is required.'
-            },
-            value =>
-            {
-                if (value?.length <= 10) return true
+            setTimeout(() => (this.dialog = false), 4000)
+        },
+    },
 
-                return 'Name must be less than 10 characters.'
-            },
-        ],
-    }),
+    created()
+    {
+        console.log("Try Send")
+        ipcRendererApi.send('send_test_message', 'Hello from renderer process!')
+    },
+
+    mounted()
+    {
+        ipcRendererApi.on('reply_test_message', function (args){
+            this.dialog = false
+
+            console.log("Reply: ", args)
+        })
+    }
 }
+
 </script>

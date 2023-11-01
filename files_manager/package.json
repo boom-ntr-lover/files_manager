@@ -14,6 +14,7 @@
     "main": "background.js",
     "dependencies": {
         "core-js": "^3.8.3",
+        "path": "^0.12.7",
         "register-service-worker": "^1.7.2",
         "vue": "^2.6.14",
         "vue-router": "^3.5.1",
@@ -37,5 +38,14 @@
         "vue-cli-plugin-vuetify": "~2.5.8",
         "vue-template-compiler": "^2.6.14",
         "vuetify-loader": "^1.7.0"
+    },
+    "eslintConfig": {
+        "rules": {
+            "no-": "off",
+            "no-debugger": "off",
+            "no-console": "off",
+            "no-empty": "off",
+            "no-unused-vars": "off"
+        }
     }
 }

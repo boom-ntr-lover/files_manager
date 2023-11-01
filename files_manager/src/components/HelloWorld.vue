@@ -8,14 +8,6 @@
                     contain
                     height="200"
                 />
-
-                <v-btn
-                    color="error"
-                    @click="overlay = !overlay"
-                >
-                    Show Overlay
-                </v-btn>
-                <v-overlay v-model="overlay"></v-overlay>
             </v-col>
 
             <v-col class="mb-4">
