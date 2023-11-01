@@ -11,5 +11,10 @@ export default {
     components: {
         HelloWorld,
     },
+
+    created()
+    {
+        // this.$router.push("/login")
+    }
 }
 </script>
