@@ -1,13 +1,27 @@
 <template>
-    <v-btn
-        :loading="loading"
-        class="flex-grow-1"
-        height="48"
-        variant="tonal"
-        @click="load()"
-    >
-        TestBtn {{ count }}
-    </v-btn>
+<!--    <v-btn-->
+<!--        :loading="loading"-->
+<!--        class="flex-grow-1"-->
+<!--        height="48"-->
+<!--        variant="tonal"-->
+<!--        @click="load()"-->
+<!--    >-->
+<!--        TestBtn {{ count }}-->
+<!--    </v-btn>-->
+    <div class="d-flex justify-center">
+        <v-btn>
+            block
+            <v-overlay
+                activator="parent"
+                location-strategy="connected"
+                scroll-strategy="block"
+            >
+                <v-card class="pa-2">
+                    Hello!
+                </v-card>
+            </v-overlay>
+        </v-btn>
+    </div>
 </template>
 
 <style scoped>
@@ -32,7 +46,7 @@ function setupIpcRenderer()
     ipcRenderer.on('reply_test_message', function (args){
         loading.value = false
         count.value++
-    }.bind(loading))
+    })
 }
 
 function load() {
