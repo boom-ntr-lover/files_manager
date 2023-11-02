@@ -5,4 +5,10 @@ module.exports = defineConfig({
     ],
 
     lintOnSave: false,
+
+    pluginOptions: {
+        electronBuilder: {
+            preload: 'src/preload.js',
+        }
+    }
 })
