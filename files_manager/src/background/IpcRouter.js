@@ -1,12 +1,11 @@
 const { ipcMain} = require("electron");
-import ArchiveManager from "@/background/archive/ArchiveManager";
 
 module.exports = {
-    setup: function() {
-        var archiveMan = new ArchiveManager();
 
-        ipcMain.on('prepare_data', (event, arg) => {
-            event.reply('reply_prepare_data', arg)
+    setup: function() {
+        // Debug
+        ipcMain.on('send_test_message', (event, arg) => {
+            event.reply('reply_test_message', 'Hello from main process!')
         })
     },
 };
