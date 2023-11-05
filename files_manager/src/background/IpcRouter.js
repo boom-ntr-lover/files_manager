@@ -1,11 +1,27 @@
 const { ipcMain} = require("electron");
 
-module.exports = {
+class IpcRouter
+{
+    constructor() {
+        this.instance = null
+    }
 
-    setup: function() {
+    static GetInstance()
+    {
+        if (!this.instance) {
+            this.instance = new IpcRouter()
+        }
+
+        return this.instance
+    }
+
+    setup() {
+        console.log("setup")
         // Debug
         ipcMain.on('send_test_message', (event, arg) => {
             event.reply('reply_test_message', 'Hello from main process!')
         })
-    },
-};
+    }
+}
+
+export default IpcRouter

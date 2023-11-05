@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const { contextBridge, ipcRenderer } = __webpack_require__(/*! electron */ \"electron\")\n\ncontextBridge.exposeInMainWorld('ipcRendererApi', {\n    send: (channel, args) => ipcRenderer.send(channel, args),\n    once: (channel, listener) => ipcRenderer.once(channel, listener),\n    on: (channel, listener) => ipcRenderer.on(channel, listener),\n});\n\n//# sourceURL=webpack:///./src/preload.js?");
+eval("const { contextBridge, ipcRenderer } = __webpack_require__(/*! electron */ \"electron\")\r\n\r\ncontextBridge.exposeInMainWorld('ipcRendererApi', {\r\n    send: (channel, args) => ipcRenderer.send(channel, args),\r\n    once: (channel, listener) => ipcRenderer.once(channel, listener),\r\n    on: (channel, listener) => ipcRenderer.on(channel, listener),\r\n});\n\n//# sourceURL=webpack:///./src/preload.js?");
 
 /***/ }),
 
@@ -104,7 +104,7 @@ eval("const { contextBridge, ipcRenderer } = __webpack_require__(/*! electron */
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! /Users/wangzixiao/Github/files_manager/files_manager/src/preload.js */\"./src/preload.js\");\n\n\n//# sourceURL=webpack:///multi_./src/preload.js?");
+eval("module.exports = __webpack_require__(/*! G:\\GitHub\\files_manager\\files_manager\\src\\preload.js */\"./src/preload.js\");\n\n\n//# sourceURL=webpack:///multi_./src/preload.js?");
 
 /***/ }),
 

@@ -29,7 +29,8 @@ async function createWindow()
         }
     })
 
-    IpcRouter.setup()
+    // 注册后台事务分发
+    IpcRouter.GetInstance().setup()
 
     if (process.env.WEBPACK_DEV_SERVER_URL)
     {
