@@ -33,21 +33,23 @@ export default {
         }
     },
 
-    watch: { },
+    watch: {},
 
     created()
     {
         if (ipcRendererApi.send('send_test_message', 'Hello from renderer process!'))
         {
+            console.log("Send Msg")
             this.waiting = true
         }
     },
 
     mounted()
     {
-        ipcRendererApi.on('reply_test_message', function (args) {
+        ipcRendererApi.on('reply_test_message', function (args)
+        {
 
-            // setTimeout(() => (this.waiting = false), 1000)
+            setTimeout(() => (this.waiting = false), 1000)
 
             console.log("Reply: ", args)
         }.bind(this))
