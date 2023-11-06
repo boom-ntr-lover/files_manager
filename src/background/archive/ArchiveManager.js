@@ -2,6 +2,9 @@ class ArchiveManager
 {
     constructor() {
         this.instance = null
+
+        ///@type ArchiveInfo
+        this.archiveInfoList = {}
     }
 
     static GetInstance()

@@ -7,6 +7,10 @@ class FileInfo {
         this.pArchiveInfo = null
     }
 
+    ToString()
+    {
+
+    }
 }
 
 export default FileInfo

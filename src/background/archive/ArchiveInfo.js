@@ -5,6 +5,14 @@ class ArchiveInfo {
 
         // List Of FileInfo
         this.filtInfoList = {}
+
+        // List Of Attribute
+        this.attributeInfoList = {}
+    }
+
+    ToString()
+    {
+
     }
 }
 

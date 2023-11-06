@@ -15,22 +15,20 @@ protocol.registerSchemesAsPrivileged([
 
 async function createWindow()
 {
+    // register ipc router
+    IpcRouter.GetInstance().setup()
+
     // Create the browser window.
     const win = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
-            // Use pluginOptions.nodeIntegration, leave this alone
-            // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
             nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
 
             preload: path.join(__dirname, 'preload.js'),
         }
     })
-
-    // 注册后台事务分发
-    IpcRouter.GetInstance().setup()
 
     if (process.env.WEBPACK_DEV_SERVER_URL)
     {

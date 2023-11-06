@@ -11,7 +11,7 @@
                 color="primary"
             >
                 <v-card-text>
-                    Loading
+                    Loading Data
                     <v-progress-linear
                         indeterminate
                         color="white"
