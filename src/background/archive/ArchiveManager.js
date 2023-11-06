@@ -1,20 +1,43 @@
+import DatabaseManager from "@/background/database/DatabaseManager";
+import ArchiveInfo from "@/background/archive/ArchiveInfo";
+
 class ArchiveManager
 {
     constructor() {
-        this.instance = null
-
         ///@type ArchiveInfo
-        this.archiveInfoList = {}
+        this.archiveInfoList = []
     }
 
     static GetInstance()
     {
-        if (!this.instance)
+        if (ArchiveManager.instance == null)
         {
-            this.instance = new ArchiveManager()
+            ArchiveManager.instance = new ArchiveManager()
         }
 
-        return this.instance;
+        return ArchiveManager.instance;
+    }
+
+    InitFromDB()
+    {
+        this.archiveInfoList = []
+        DatabaseManager.GetQueryData("select * from archive_info order by id",(err, datas) =>
+        {
+            if (err)
+            {
+                console.log(err)
+                return
+            }
+
+            for (let i = 0; i < datas.length; i++)
+            {
+                let data = datas[i]
+
+                var archiveInfo = new ArchiveInfo()
+                archiveInfo.InitFromDB(data)
+                this.archiveInfoList.push(archiveInfo)
+            }
+        })
     }
 }
 

@@ -1,6 +1,7 @@
 import * as sqlite3 from "sqlite3";
 import path from "path";
 import fs from 'fs'
+import ArchiveManager from "@/background/archive/ArchiveManager";
 
 class DatabaseManager
 {
@@ -48,7 +49,7 @@ class DatabaseManager
 
         var db = new sqlite3.Database(this.dbFilePath, (err) => {
             if (err) {
-                console.error('--------------------connectDatabaseErr' + err.message);
+                console.error('====: Connect Database Err' + err.message);
                 return;
             }
 
@@ -62,10 +63,13 @@ class DatabaseManager
                     console.log(err);
 
                 console.log("Finish Init Database")
-                this.bLoaded = true
-            })
 
-            this.db = db
+                this.bLoaded = true
+                this.db = db
+
+                // 初始化其他模块中，关于数据库的部分
+                ArchiveManager.GetInstance().InitFromDB()
+            })
         })
     }
 
@@ -74,7 +78,7 @@ class DatabaseManager
         let instance = DatabaseManager.GetInstance()
         if (!instance.bLoaded)
         {
-            console.log("Database Not Loaded")
+            console.log("====: Err: Database Not Loaded")
             return;
         }
 
@@ -83,19 +87,13 @@ class DatabaseManager
 
         instance.db.all(sqlStr, (err, row) =>
         {
-            let data = {}
             if (err)
             {
                 callback(err)
                 return;
             }
 
-            for (let key in row)
-            {
-                data[key] = row[key]
-            }
-
-            callback(null, data)
+            callback(null, row)
         })
     }
 }

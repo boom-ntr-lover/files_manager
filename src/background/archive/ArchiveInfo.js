@@ -1,7 +1,9 @@
 class ArchiveInfo {
     constructor() {
-        this.code = 0
+        this.id = 0
         this.name = ""
+        this.description = ""
+        this.tagMask = 0
 
         // List Of FileInfo
         this.filtInfoList = {}
@@ -10,9 +12,21 @@ class ArchiveInfo {
         this.attributeInfoList = {}
     }
 
-    ToString()
+    /// from db archive_info
+    InitFromDB(dbData)
     {
+        this.id = dbData.id
+        this.name = dbData.name
+        this.description = dbData.description
+        this.tagMask = dbData.tag_mask
+    }
 
+    toString()
+    {
+        return "ArchiveInfo: id=" + this.id
+            + " name=" + this.name
+            + " description=" + this.description
+            + " tagMask=" + this.tagMask
     }
 }
 

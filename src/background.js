@@ -7,6 +7,7 @@ import path from "path";
 
 import IpcRouter from "@/background/IpcRouter";
 import DatabaseManager from "@/background/database/DatabaseManager";
+import ArchiveManager from "@/background/archive/ArchiveManager";
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -20,7 +21,7 @@ async function createWindow()
     DatabaseManager.GetInstance().Init()
 
     // register ipc router
-    IpcRouter.GetInstance().setup()
+    IpcRouter.GetInstance().Setup()
 
     // Create the browser window.
     const win = new BrowserWindow({
@@ -39,7 +40,8 @@ async function createWindow()
         // Load the url of the dev server if in development mode
         await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
         if (!process.env.IS_TEST) win.webContents.openDevTools()
-    } else
+    }
+    else
     {
         createProtocol('app')
         // Load the index.html when not in development

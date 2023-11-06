@@ -1,26 +1,15 @@
 <template>
-    <div class="text-center">
-
-        <v-dialog
-            v-model="waiting"
-            :scrim="false"
-            persistent
-            width="auto"
+    <div>
+        <v-data-table
+            :headers="headers"
+            :items="archiveInfos"
+            item-key="name"
+            class="elevation-1"
+            hide-default-footer
+            :search="search"
+            :custom-filter="filterOnlyCapsText"
         >
-            <v-card
-                color="primary"
-            >
-                <v-card-text>
-                    Loading Data
-                    <v-progress-linear
-                        indeterminate
-                        color="white"
-                        class="mb-0"
-                    ></v-progress-linear>
-                </v-card-text>
-            </v-card>
-        </v-dialog>
-
+        </v-data-table>
     </div>
 </template>
 <script>
@@ -30,6 +19,12 @@ export default {
     {
         return {
             waiting: true,
+
+            search: '',
+            calories: '',
+
+            // Table Of ArchiveInfo
+            archiveInfos: [],
         }
     },
 
@@ -48,13 +43,42 @@ export default {
 
     mounted()
     {
-        ipcRendererApi.on('reply_test_message', function (event, args)
+        ipcRendererApi.on('reply_archive_info', function (event, args)
         {
-            console.log("Reply: ", args)
+            setTimeout(() => (this.waiting = false), 1000)
 
-            setTimeout(() => (this.waiting = false), 5000)
+            this.archiveInfos = args
+
         }.bind(this))
-    }
+    },
+
+    computed:
+        {
+            headers()
+            {
+                return [
+                    {
+                        text: '编号',
+                        align: 'start',
+                        sortable: false,
+                        value: 'name',
+                    },
+                    {text: '标签', value: 'tags'},
+                ]
+            },
+        },
+
+    methods:
+        {
+            filterOnlyCapsText(value, search, item)
+            {
+                return value != null &&
+                    search != null &&
+                    typeof value === 'string' &&
+                    value.toString().toLocaleUpperCase().indexOf(search) !== -1
+            },
+        }
 }
 
 </script>
+
