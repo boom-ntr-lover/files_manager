@@ -50,8 +50,23 @@ class DatabaseManager
 
             console.log('👉👉👉-----------------sqlite3已经连接成功')
 
-            const dataSql = fs.readFileSync(this.sqlFilePath).toString();
-            db.exec(dataSql)
+            // 初始化数据库
+            const initSql = fs.readFileSync(this.sqlFilePath).toString();
+            db.exec(initSql, (err) =>
+            {
+                if (err)
+                    console.log('--------------------initDatabaseErr' + err.message);
+            })
+
+            db.each("SELECT * FROM test", function(err, row)
+            {
+                if (err)
+                {
+                    console.log('--------------------Test Read DatabaseErr', err)
+                    return;
+                }
+                console.log(row)
+            })
         })
     }
 }
