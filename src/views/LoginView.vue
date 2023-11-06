@@ -46,11 +46,11 @@ export default {
 
     mounted()
     {
-        ipcRendererApi.on('reply_test_message', function (args)
+        ipcRendererApi.on('reply_test_message', function (event, args)
         {
-            setTimeout(() => (this.waiting = false), 1000)
-
             console.log("Reply: ", args)
+
+            setTimeout(() => (this.waiting = false), 5000)
         }.bind(this))
     }
 }

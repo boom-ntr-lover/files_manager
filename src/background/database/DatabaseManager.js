@@ -7,11 +7,16 @@ class DatabaseManager
     constructor() {
         this.instance = null
 
+        this.bLoaded = false
+
         this.dbPath = "/data/"
         this.dbFileName = "Test.db"
         this.dbFilePath = ""
 
         this.sqlFilePath = "./public/sql/create_table.sql"
+
+        //type: sqlite3.Database
+        this.db = null
     }
 
     static GetInstance()
@@ -42,7 +47,7 @@ class DatabaseManager
             }
         })
 
-        const db = new sqlite3.Database(this.dbFilePath, (err) => {
+        var db = new sqlite3.Database(this.dbFilePath, (err) => {
             if (err) {
                 console.error('--------------------connectDatabaseErr' + err.message);
                 return;
@@ -51,22 +56,52 @@ class DatabaseManager
             console.log('👉👉👉-----------------sqlite3已经连接成功')
 
             // 初始化数据库
-            const initSql = fs.readFileSync(this.sqlFilePath).toString();
-            db.exec(initSql, (err) =>
+            const initSqlStr = fs.readFileSync(this.sqlFilePath).toString();
+            db.exec(initSqlStr, (err) =>
             {
                 if (err)
-                    console.log('--------------------initDatabaseErr' + err.message);
+                    console.log(err);
+
+                console.log("Finish Init Database")
+                this.bLoaded = true
+
+                // db.run("select * from test")
+                db.all("select * from test", (err, row) =>
+                {
+                    if (err)
+                    {
+                        console.log("测试失败？", err)
+                        return
+                    }
+
+                    console.log("初始化后的内容：", row)
+                })
             })
 
-            db.each("SELECT * FROM test", function(err, row)
+            this.db = db
+        })
+    }
+
+    TestLink(callback)
+    {
+        if (!this.bLoaded)
+            return null;
+
+        this.db.all("SELECT * FROM test", (err, row) =>
+        {
+            var data = {}
+            if (err)
             {
-                if (err)
-                {
-                    console.log('--------------------Test Read DatabaseErr', err)
-                    return;
-                }
-                console.log(row)
-            })
+                console.log('--------------------Test Read DatabaseErr', err)
+                return;
+            }
+
+            for (var key in row)
+            {
+                data[key] = row[key]
+            }
+
+            callback(data)
         })
     }
 }

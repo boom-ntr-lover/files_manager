@@ -1,5 +1,6 @@
 const sqlite3 = require('sqlite3')
 const {ipcMain} = require("electron");
+import DatabaseManager from "@/background/database/DatabaseManager";
 
 class IpcRouter
 {
@@ -23,7 +24,10 @@ class IpcRouter
         // Debug
         ipcMain.on('send_test_message', (event, arg) =>
         {
-            event.reply('reply_test_message', 'Hello from main process!')
+            DatabaseManager.GetInstance().TestLink((data) =>
+            {
+                event.reply('reply_test_message', data)
+            })
         })
     }
 }
