@@ -69,12 +69,7 @@ class DatabaseManager
                 db.all("select * from test", (err, row) =>
                 {
                     if (err)
-                    {
                         console.log("测试失败？", err)
-                        return
-                    }
-
-                    console.log("初始化后的内容：", row)
                 })
             })
 
