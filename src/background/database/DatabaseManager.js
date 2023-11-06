@@ -64,13 +64,6 @@ class DatabaseManager
 
                 console.log("Finish Init Database")
                 this.bLoaded = true
-
-                // db.run("select * from test")
-                db.all("select * from test", (err, row) =>
-                {
-                    if (err)
-                        console.log("测试失败？", err)
-                })
             })
 
             this.db = db
@@ -86,10 +79,7 @@ class DatabaseManager
         {
             var data = {}
             if (err)
-            {
-                console.log('--------------------Test Read DatabaseErr', err)
                 return;
-            }
 
             for (var key in row)
             {

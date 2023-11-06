@@ -5,4 +5,6 @@ create table if not exists test (
 
 delete from test;
 
+
+-- 测试数据
 insert into test (name, description) values ('testName', 'testDesc');
