@@ -31,7 +31,6 @@ class DatabaseManager
 
     Init()
     {
-        const isDevelopment = process.env.NODE_ENV !== 'production'
         this.dbFilePath = path.join('./', this.dbPath, this.dbFileName)
         console.log('Try Access Database:' + this.dbFilePath)
 
@@ -70,23 +69,33 @@ class DatabaseManager
         })
     }
 
-    TestLink(callback)
+    static GetQueryData(sqlStr, callback)
     {
-        if (!this.bLoaded)
-            return null;
-
-        this.db.all("SELECT * FROM test", (err, row) =>
+        let instance = DatabaseManager.GetInstance()
+        if (!instance.bLoaded)
         {
-            var data = {}
-            if (err)
-                return;
+            console.log("Database Not Loaded")
+            return;
+        }
 
-            for (var key in row)
+        if (process.env.NODE_ENV !== 'production')
+            console.log("====: Do Sql Query: \n", sqlStr)
+
+        instance.db.all(sqlStr, (err, row) =>
+        {
+            let data = {}
+            if (err)
+            {
+                callback(err)
+                return;
+            }
+
+            for (let key in row)
             {
                 data[key] = row[key]
             }
 
-            callback(data)
+            callback(null, data)
         })
     }
 }

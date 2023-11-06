@@ -37,7 +37,9 @@ export default {
 
     created()
     {
-        if (ipcRendererApi.send('send_test_message', 'Hello from renderer process!'))
+        if (ipcRendererApi.send('get_archive_info', {
+            order_by: 'id',
+        }))
         {
             console.log("Send Msg")
             this.waiting = true

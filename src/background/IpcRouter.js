@@ -21,11 +21,14 @@ class IpcRouter
 
     setup()
     {
-        // Debug
-        ipcMain.on('send_test_message', (event, arg) =>
+        // Get Tag List
+        ipcMain.on('get_archive_info', (event, arg) =>
         {
-            DatabaseManager.GetInstance().TestLink((data) =>
+            DatabaseManager.GetQueryData("select * from archive_info order by " + arg.order_by,(err, data) =>
             {
+                if (err)
+                    console.log(err)
+
                 event.reply('reply_test_message', data)
             })
         })
