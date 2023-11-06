@@ -1,3 +1,4 @@
+const sqlite3 = require('sqlite3')
 const {ipcMain} = require("electron");
 
 class IpcRouter
@@ -19,7 +20,6 @@ class IpcRouter
 
     setup()
     {
-        console.log("setup")
         // Debug
         ipcMain.on('send_test_message', (event, arg) =>
         {

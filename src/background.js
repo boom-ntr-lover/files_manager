@@ -3,8 +3,10 @@
 import {app, protocol, BrowserWindow} from 'electron'
 import {createProtocol} from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, {VUEJS_DEVTOOLS} from 'electron-devtools-installer'
-import IpcRouter from "@/background/IpcRouter";
 import path from "path";
+
+import IpcRouter from "@/background/IpcRouter";
+import DatabaseManager from "@/background/database/DatabaseManager";
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -15,6 +17,8 @@ protocol.registerSchemesAsPrivileged([
 
 async function createWindow()
 {
+    DatabaseManager.GetInstance().Init()
+
     // register ipc router
     IpcRouter.GetInstance().setup()
 

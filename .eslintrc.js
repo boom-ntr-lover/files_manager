@@ -15,5 +15,6 @@ module.exports = {
         'no-debugger': 'off',
         'no-undef': "off",
         'no-unused-vars': "off",
+        'no-empty': 'off',
     }
 }

@@ -48,7 +48,6 @@ export default {
     {
         ipcRendererApi.on('reply_test_message', function (args)
         {
-
             setTimeout(() => (this.waiting = false), 1000)
 
             console.log("Reply: ", args)
