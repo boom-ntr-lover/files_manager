@@ -23,6 +23,13 @@ class IpcRouter
 
     Setup()
     {
+        // 检查 ArchiveManager 是否加载数据库
+        ipcMain.on('check_archive_loaded', (event, arg) =>
+        {
+            let archiveManager = ArchiveManager.GetInstance()
+            event.reply('reply_archive_loaded', archiveManager.bLoaded)
+        })
+
         // Get Tag List
         ipcMain.on('get_archive_info', (event, arg) =>
         {

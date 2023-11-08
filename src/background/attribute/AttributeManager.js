@@ -20,7 +20,6 @@ class AttributeManager
 
     GetTagNameByMask(mask)
     {
-
         // return join("tag", mask.toString())
     }
 }

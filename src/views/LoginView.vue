@@ -1,15 +1,26 @@
 <template>
-    <div>
-        <v-data-table
-            :headers="headers"
-            :items="archiveInfos"
-            item-key="name"
-            class="elevation-1"
-            hide-default-footer
-            :search="search"
-            :custom-filter="filterOnlyCapsText"
+    <div class="text-center">
+
+        <v-dialog
+            v-model="waiting"
+            :scrim="false"
+            persistent
+            width="auto"
         >
-        </v-data-table>
+            <v-card
+                color="primary"
+            >
+                <v-card-text>
+                    Loading Data
+                    <v-progress-linear
+                        indeterminate
+                        color="white"
+                        class="mb-0"
+                    ></v-progress-linear>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
+
     </div>
 </template>
 <script>
@@ -19,12 +30,6 @@ export default {
     {
         return {
             waiting: true,
-
-            search: '',
-            calories: '',
-
-            // Table Of ArchiveInfo
-            archiveInfos: [],
         }
     },
 
@@ -43,42 +48,17 @@ export default {
 
     mounted()
     {
-        ipcRendererApi.on('reply_archive_info', function (event, args)
+        ipcRendererApi.on('reply_test_message', function (event, args)
         {
-            setTimeout(() => (this.waiting = false), 1000)
+            console.log("Reply: ", args)
 
-            this.archiveInfos = args
+            setTimeout(() => {
+                this.waiting = false
+                this.$router.push("/")
+            }, 5000)
 
         }.bind(this))
-    },
-
-    computed:
-        {
-            headers()
-            {
-                return [
-                    {
-                        text: '编号',
-                        align: 'start',
-                        sortable: false,
-                        value: 'name',
-                    },
-                    {text: '标签', value: 'tags'},
-                ]
-            },
-        },
-
-    methods:
-        {
-            filterOnlyCapsText(value, search, item)
-            {
-                return value != null &&
-                    search != null &&
-                    typeof value === 'string' &&
-                    value.toString().toLocaleUpperCase().indexOf(search) !== -1
-            },
-        }
+    }
 }
 
 </script>
-

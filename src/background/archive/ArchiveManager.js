@@ -1,9 +1,12 @@
 import DatabaseManager from "@/background/database/DatabaseManager";
 import ArchiveInfo from "@/background/archive/ArchiveInfo";
 
+const {ipcMain} = require("electron");
+
 class ArchiveManager
 {
     constructor() {
+        this.bLoaded = false
         ///@type ArchiveInfo
         this.archiveInfoList = []
     }
@@ -37,6 +40,10 @@ class ArchiveManager
                 archiveInfo.InitFromDB(data)
                 this.archiveInfoList.push(archiveInfo)
             }
+
+            this.bLoaded = true
+
+            // ipcMain.send("reply_archive_loaded", true)
         })
     }
 }

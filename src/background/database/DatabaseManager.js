@@ -6,18 +6,15 @@ import ArchiveManager from "@/background/archive/ArchiveManager";
 class DatabaseManager
 {
     constructor() {
-        this.instance = null
-
         this.bLoaded = false
-
-        this.dbPath = "/data/"
-        this.dbFileName = "Test.db"
-        this.dbFilePath = ""
 
         this.sqlFilePath = "./public/sql/create_table.sql"
 
+        this.dbPath = "/data/"
+        this.dbFileName = "Test.db"
+
         //type: sqlite3.Database
-        this.db = null
+        this.archiveDB = null
     }
 
     static GetInstance()
@@ -32,28 +29,34 @@ class DatabaseManager
 
     Init()
     {
-        this.dbFilePath = path.join('./', this.dbPath, this.dbFileName)
-        console.log('Try Access Database:' + this.dbFilePath)
+        let dbFilePath = path.join('./', this.dbPath, this.dbFileName)
+        this.ConnectToDB(dbFilePath)
+    }
 
-        fs.access(this.dbFilePath, (err)=>
+    ConnectToDB(filePath)
+    {
+        console.log('Try Access Database:' + filePath)
+        fs.access(filePath, (err)=>
         {
             if (err)
             {
-                fs.writeFile(this.dbFilePath,'',(err)=>{
+                fs.writeFile(filePath,'',(err)=>{
                     if (err) {
-                        console.log('Create', this.dbFilePath, 'Error:', err)
+                        console.log('Create', filePath, 'Error:', err)
                     }
                 })
             }
         })
 
-        var db = new sqlite3.Database(this.dbFilePath, (err) => {
-            if (err) {
+        const db = new sqlite3.Database(filePath, (err) =>
+        {
+            if (err)
+            {
                 console.error('====: Connect Database Err' + err.message);
                 return;
             }
 
-            console.log('👉👉👉-----------------sqlite3已经连接成功')
+            console.log('👉👉👉 Sqlite3 已经连接成功')
 
             // 初始化数据库
             const initSqlStr = fs.readFileSync(this.sqlFilePath).toString();
@@ -65,12 +68,12 @@ class DatabaseManager
                 console.log("Finish Init Database")
 
                 this.bLoaded = true
-                this.db = db
+                this.archiveDB = db
 
                 // 初始化其他模块中，关于数据库的部分
                 ArchiveManager.GetInstance().InitFromDB()
             })
-        })
+        });
     }
 
     static GetQueryData(sqlStr, callback)
@@ -85,7 +88,7 @@ class DatabaseManager
         if (process.env.NODE_ENV !== 'production')
             console.log("====: Do Sql Query: \n", sqlStr)
 
-        instance.db.all(sqlStr, (err, row) =>
+        instance.archiveDB.all(sqlStr, (err, row) =>
         {
             if (err)
             {
