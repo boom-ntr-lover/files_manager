@@ -1,6 +1,8 @@
 import { join, extname } from "path";
 import fs from "fs";
 import FileInfo from "@/background/file/FileInfo";
+import EventHelper from "@/background/util/EventHelper";
+import GlobalHelper from "@/background/util/GlobalHelper";
 
 class FileManager
 {
@@ -49,11 +51,12 @@ class FileManager
     }
 
     // 根据文件名获取数据库文件内容
-    ScanFileInfoFromPath(rootPath, progressCallback)
+    ScanFileInfoFromPath(rootPath)
     {
         if (rootPath == null) rootPath = this.testScanPathRoot
 
-        progressCallback(false, 0, 10, "开始扫描文件...")
+        // EventHelper.GetInstance().Emit('reply_loading_progress', false, 0, 10, '开始扫描文件...')
+        GlobalHelper.GetInstance().mainWindow.webContents.send('reply_scan_local_files', false, 0, 10, '开始扫描文件...')
 
         // 清理文件信息
         for (let i = this.fileInfoList.length - 1; i >= 0; --i)
@@ -62,11 +65,11 @@ class FileManager
         // 读取目录中的所有文件路径
         this.ReadFileInfoFromPath(rootPath, [], this.fileInfoList)
 
-        progressCallback(false, 10, 10, "扫描完毕，共有: " + this.fileInfoList.length + " 个文件")
+        // this.fileInfoList.forEach((fileInfo, index) => {
+        //     console.log(fileInfo)
+        // })
 
-        this.fileInfoList.forEach((fileInfo, index) => {
-            console.log(fileInfo)
-        })
+        GlobalHelper.GetInstance().mainWindow.webContents.send('reply_scan_local_files', false, 10, 10, '扫描文件完毕')
     }
 
     ReadFileInfoFromPath(rootPath, inputParenDir, fileInfoList)

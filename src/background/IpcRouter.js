@@ -1,6 +1,7 @@
 import ArchiveManager from "@/background/archive/ArchiveManager";
 import FileManager from "@/background/file/FileManager";
-const {ipcMain} = require("electron");
+import EventHelper from "@/background/util/EventHelper";
+const { ipcMain, webContents} = require("electron");
 
 export default {
     Setup()
@@ -8,10 +9,7 @@ export default {
         // Require To Prepare Local Files
         ipcMain.on('require_scan_local_files', (event, arg) =>
         {
-            FileManager.GetInstance().ScanFileInfoFromPath(null, (bFinished, percent, subPercent, message) =>
-            {
-                event.reply('reply_scan_local_files', bFinished, percent, subPercent, message || "加载中")
-            })
+            FileManager.GetInstance().ScanFileInfoFromPath(null)
         })
 
         // 检查 ArchiveManager 是否加载数据库
@@ -27,5 +25,14 @@ export default {
             let archiveManager = ArchiveManager.GetInstance()
             event.reply('reply_archive_info', archiveManager.archiveInfoList)
         })
+
+        // EventHelper.GetInstance().On('reply_loading_progress', (bFinished, percent, subPercent, message) =>
+        // {
+        //     console.log("Get reply_loading_progress Of Event ")
+        //
+        //     console.log(webContents)
+        //
+        //     // ipcMain.send('reply_scan_local_files', bFinished, percent, subPercent, message || "Loading...")
+        // })
     }
 }

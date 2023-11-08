@@ -8,7 +8,8 @@ import path from "path";
 import IpcRouter from "@/background/IpcRouter";
 import DatabaseManager from "@/background/database/DatabaseManager";
 import ArchiveManager from "@/background/archive/ArchiveManager";
-import GameHelper from "@/background/util/GameHelper";
+import GameHelper from "@/background/util/GlobalHelper";
+import GlobalHelper from "@/background/util/GlobalHelper";
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -43,6 +44,8 @@ async function createWindow()
             preload: path.join(__dirname, 'preload.js'),
         }
     })
+
+    GlobalHelper.GetInstance().mainWindow = win
 
     if (process.env.WEBPACK_DEV_SERVER_URL)
     {
