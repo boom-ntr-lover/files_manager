@@ -1,7 +1,7 @@
 import * as sqlite3 from "sqlite3";
-import path from "path";
 import fs from 'fs'
 import ArchiveManager from "@/background/archive/ArchiveManager";
+import FileManager from "@/background/util/FileManager";
 
 class DatabaseManager
 {
@@ -11,7 +11,7 @@ class DatabaseManager
         this.sqlFilePath = "./public/sql/create_table.sql"
 
         this.dbPath = "/data/"
-        this.dbFileName = "Test.db"
+        this.dbFileName = "Default.db"
 
         //type: sqlite3.Database
         this.archiveDB = null
@@ -29,24 +29,12 @@ class DatabaseManager
 
     Init()
     {
-        let dbFilePath = path.join('./', this.dbPath, this.dbFileName)
-        this.ConnectToDB(dbFilePath)
+        this.ConnectToDB(this.dbFileName)
     }
 
-    ConnectToDB(filePath)
+    ConnectToDB(fileName)
     {
-        console.log('Try Access Database:' + filePath)
-        fs.access(filePath, (err)=>
-        {
-            if (err)
-            {
-                fs.writeFile(filePath,'',(err)=>{
-                    if (err) {
-                        console.log('Create', filePath, 'Error:', err)
-                    }
-                })
-            }
-        })
+        let filePath = FileManager.GetInstance().GetDBFilePath(fileName)
 
         const db = new sqlite3.Database(filePath, (err) =>
         {

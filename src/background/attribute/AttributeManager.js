@@ -1,7 +1,5 @@
 import {join} from "path";
 
-
-
 class AttributeManager
 {
     constructor() {

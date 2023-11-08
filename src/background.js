@@ -25,8 +25,9 @@ async function createWindow()
 
     // Create the browser window.
     const win = new BrowserWindow({
-        width: 1400,
+        width: 1000,
         height: 600,
+        minWidth: 900,
         webPreferences: {
             nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
@@ -39,7 +40,10 @@ async function createWindow()
     {
         // Load the url of the dev server if in development mode
         await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-        if (!process.env.IS_TEST) win.webContents.openDevTools()
+
+        if (!process.env.IS_TEST) win.webContents.openDevTools({
+            mode: 'bottom'
+        })
     }
     else
     {

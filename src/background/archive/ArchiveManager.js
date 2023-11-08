@@ -6,23 +6,26 @@ const {ipcMain} = require("electron");
 class ArchiveManager
 {
     constructor() {
-        this.bLoaded = false
         ///@type ArchiveInfo
         this.archiveInfoList = []
+
+        this.bLoaded = false
     }
 
     static GetInstance()
     {
-        if (ArchiveManager.instance == null)
+        if (this.instance == null)
         {
-            ArchiveManager.instance = new ArchiveManager()
+            this.instance = new ArchiveManager()
         }
 
-        return ArchiveManager.instance;
+        return this.instance;
     }
 
+    // 初始化 Archive 信息，一般来自数据库载入后
     InitFromDB()
     {
+        this.bLoaded = false
         this.archiveInfoList = []
         DatabaseManager.GetQueryData("select * from archive_info order by id",(err, datas) =>
         {
@@ -42,8 +45,6 @@ class ArchiveManager
             }
 
             this.bLoaded = true
-
-            // ipcMain.send("reply_archive_loaded", true)
         })
     }
 }
