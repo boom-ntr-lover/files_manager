@@ -8,6 +8,7 @@ import path from "path";
 import IpcRouter from "@/background/IpcRouter";
 import DatabaseManager from "@/background/database/DatabaseManager";
 import ArchiveManager from "@/background/archive/ArchiveManager";
+import GameHelper from "@/background/util/GameHelper";
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -16,16 +17,23 @@ protocol.registerSchemesAsPrivileged([
     {scheme: 'app', privileges: {secure: true, standard: true}}
 ])
 
-async function createWindow()
+async function LoadingBackground()
 {
     DatabaseManager.GetInstance().Init()
 
     // register ipc router
-    IpcRouter.GetInstance().Setup()
+    // IpcRouter.GetInstance().Setup()
+    IpcRouter.Setup()
+}
+
+async function createWindow()
+{
+    // 初始化
+    LoadingBackground()
 
     // Create the browser window.
     const win = new BrowserWindow({
-        width: 1000,
+        width: 900,
         height: 600,
         minWidth: 900,
         webPreferences: {

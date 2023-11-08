@@ -1,7 +1,7 @@
 import * as sqlite3 from "sqlite3";
 import fs from 'fs'
 import ArchiveManager from "@/background/archive/ArchiveManager";
-import FileManager from "@/background/util/FileManager";
+import FileManager from "@/background/file/FileManager";
 
 class DatabaseManager
 {
@@ -40,7 +40,7 @@ class DatabaseManager
         {
             if (err)
             {
-                console.error('====: Connect Database Err' + err.message);
+                console.error('👉👉👉 Connect Database Err' + err.message);
                 return;
             }
 
@@ -53,7 +53,7 @@ class DatabaseManager
                 if (err)
                     console.log(err);
 
-                console.log("Finish Init Database")
+                console.log("👉👉👉 Finish Init Database")
 
                 this.bLoaded = true
                 this.archiveDB = db
@@ -69,12 +69,12 @@ class DatabaseManager
         let instance = DatabaseManager.GetInstance()
         if (!instance.bLoaded)
         {
-            console.log("====: Err: Database Not Loaded")
+            console.log("Err: Database Not Loaded")
             return;
         }
 
         if (process.env.NODE_ENV !== 'production')
-            console.log("====: Do Sql Query: \n", sqlStr)
+            console.log("👉👉👉 Do Sql Query: \n", sqlStr)
 
         instance.archiveDB.all(sqlStr, (err, row) =>
         {

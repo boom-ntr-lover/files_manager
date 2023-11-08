@@ -11,9 +11,12 @@
 export default {
     name: 'App',
 
-    data: () => ({
-        //
-    }),
+    data: () => ({ }),
+
+    mounted()
+    {
+        this.$router.push("/loading")
+    }
 };
 
 </script>

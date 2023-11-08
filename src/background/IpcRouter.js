@@ -1,28 +1,19 @@
 import ArchiveManager from "@/background/archive/ArchiveManager";
-
-const sqlite3 = require('sqlite3')
+import FileManager from "@/background/file/FileManager";
 const {ipcMain} = require("electron");
-import DatabaseManager from "@/background/database/DatabaseManager";
 
-class IpcRouter
-{
-    constructor()
-    {
-        this.instance = null
-    }
-
-    static GetInstance()
-    {
-        if (!this.instance)
-        {
-            this.instance = new IpcRouter()
-        }
-
-        return this.instance
-    }
-
+export default {
     Setup()
     {
+        // Require To Prepare Local Files
+        ipcMain.on('require_scan_local_files', (event, arg) =>
+        {
+            FileManager.GetInstance().ScanFileInfoFromPath(null, (bFinished, percent, subPercent, message) =>
+            {
+                event.reply('reply_scan_local_files', bFinished, percent, subPercent, message || "加载中")
+            })
+        })
+
         // 检查 ArchiveManager 是否加载数据库
         ipcMain.on('check_archive_loaded', (event, arg) =>
         {
@@ -38,5 +29,3 @@ class IpcRouter
         })
     }
 }
-
-export default IpcRouter
