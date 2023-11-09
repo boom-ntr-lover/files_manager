@@ -6,10 +6,12 @@
     >
         <!-- 左侧导航-->
         <v-card
-            class="pa-1"
+            class="md-1"
+            outlined
             tile
         >
             <left-navigation></left-navigation>
+
         </v-card>
 
         <router-view class="view main-content" name="content"></router-view>

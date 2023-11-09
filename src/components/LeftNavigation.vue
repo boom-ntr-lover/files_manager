@@ -22,8 +22,14 @@
                     </v-list-item-content>
 
                 </v-list-item>
+
             </v-list-item-group>
+
         </v-list>
+
+        <v-divider></v-divider>
+        <!-- 文件夹列表-->
+        <router-view class="view main-content" name="file_tree" max-h></router-view>
 
     </v-navigation-drawer>
 </template>
@@ -63,7 +69,7 @@ export default {
 
     created()
     {
-        this.viewSelectItem = 0
+        this.viewSelectItem = 1
     },
 
     methods:

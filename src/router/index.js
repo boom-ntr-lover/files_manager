@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoadingView from '../views/LoadingView.vue'
 import HelloWorld from "@/components/HelloWorld.vue";
+import RealFileTreeView from "@/views/RealFileTreeView.vue";
+import FolderViewComponent from "@/components/FolderViewComponent";
 
 Vue.use(VueRouter)
 
@@ -21,13 +23,15 @@ const routes = [
             {
                 path: 'real_file_tree',
                 components: {
-                    content: HelloWorld
+                    content: RealFileTreeView,
+                    file_tree: FolderViewComponent,
                 }
             },
             {
                 path: 'no_add_file_view',
                 components: {
-                    content: HelloWorld
+                    content: HelloWorld,
+                    file_tree: FolderViewComponent,
                 }
             },
         ]
