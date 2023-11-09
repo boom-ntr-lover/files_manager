@@ -66,7 +66,7 @@ export default {
 
             if (bFinished)
             {
-                this.$router.push("/")
+                this.$router.push("/home")
             }
         }.bind(this))
     }

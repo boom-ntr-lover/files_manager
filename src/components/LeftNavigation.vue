@@ -1,38 +1,31 @@
 <template>
     <v-navigation-drawer
+        floating
         permanent
-        expand-on-hover
     >
-        <v-card
-            class="mx-auto"
-            max-width="300"
-            tile
-        >
 
-            <v-divider></v-divider>
-            <v-list dense>
-                <v-list-item-group
-                    v-model="viewSelectItem"
-                    color="primary"
+        <v-divider></v-divider>
+        <v-list dense>
+            <v-list-item-group
+                v-model="viewSelectItem"
+                color="primary"
+            >
+                <v-list-item
+                    v-for="(item, i) in items"
+                    :key="item.key"
                 >
-                    <v-list-item
-                        v-for="(item, i) in items"
-                        :key="item.key"
-                    >
-                        <v-list-item-icon>
-                            <v-icon v-text="item.icon"></v-icon>
-                        </v-list-item-icon>
+                    <v-list-item-icon>
+                        <v-icon v-text="item.icon"></v-icon>
+                    </v-list-item-icon>
 
-                        <v-list-item-content>
-                            <v-list-item-title v-text="item.text"></v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                </v-list-item-group>
+                    <v-list-item-content>
+                        <v-list-item-title v-text="item.text"></v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list-item-group>
 
-            </v-list>
-            <v-divider></v-divider>
-
-        </v-card>
+        </v-list>
+        <v-divider></v-divider>
 
     </v-navigation-drawer>
 </template>
@@ -40,29 +33,51 @@
 <script>
 export default {
     data: () => ({
-        viewSelectItem: '',
+        viewSelectItem: -1,
         items: [
             {
                 key: 'archive_view',
                 text: 'ArchiveView',
-                icon: 'mdi-clock'
-            },
-            {
-                key: 'file_view',
-                text: 'FileView',
-                icon: 'mdi-account',
+                icon: 'mdi-clock',
+                path: '/archive_view',
             },
             {
                 key: 'real_file_tree',
                 text: 'FileView',
                 icon: 'mdi-account',
+                path: '/real_file_tree',
             },
             {
                 key: 'no_add_file_view',
                 text: 'FileView',
                 icon: 'mdi-account',
+                path: '/no_add_file_view',
             },
         ],
     }),
+
+    watch: {
+        viewSelectItem()
+        {
+            this.changeView()
+        }
+    },
+
+    created()
+    {
+        this.viewSelectItem = 0
+    },
+
+    methods:
+        {
+            changeView()
+            {
+                let targetCfg = this.items[this.viewSelectItem]
+                if (targetCfg != null)
+                {
+                    this.$router.push("/home" + targetCfg.path)
+                }
+            }
+        }
 }
 </script>

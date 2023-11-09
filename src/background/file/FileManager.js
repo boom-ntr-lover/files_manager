@@ -128,10 +128,12 @@ class FileManager
     RemoveFileInfo(index)
     {
         let fileInfo = this.fileInfoList[index]
-        let archiveInfo = fileInfo.pArchiveInfo
-        archiveInfo.filtInfoList.splice(archiveInfo.filtInfoList.indexOf(fileInfo), 1)
-
+        if (fileInfo == null) return
         this.fileInfoList.splice(index, 1)
+
+        let archiveInfo = fileInfo.pArchiveInfo
+        if (archiveInfo != null)
+            archiveInfo.filtInfoList.splice(archiveInfo.filtInfoList.indexOf(fileInfo), 1)
     }
 }
 
