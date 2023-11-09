@@ -64,7 +64,10 @@ export default {
             this.value = value
             this.loadingText = loadingText
 
-            console.log(this.loadingText)
+            if (bFinished)
+            {
+                this.$router.push("/")
+            }
         }.bind(this))
     }
 }

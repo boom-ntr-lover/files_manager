@@ -16,5 +16,8 @@ module.exports = {
         'no-undef': "off",
         'no-unused-vars': "off",
         'no-empty': 'off',
+
+        'vue/no-unused-vars': "off",
+        'vue/no-unused-components': "off",
     }
 }

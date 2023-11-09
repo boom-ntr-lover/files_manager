@@ -12,6 +12,12 @@ export default {
             FileManager.GetInstance().ScanFileInfoFromPath(null)
         })
 
+        // Get FileInfo List
+        ipcMain.on('require_file_info_list', (event, arg) =>
+        {
+            event.reply('reply_file_info_list', FileManager.GetInstance().fileInfoList)
+        })
+
         // 检查 ArchiveManager 是否加载数据库
         ipcMain.on('check_archive_loaded', (event, arg) =>
         {
@@ -25,14 +31,5 @@ export default {
             let archiveManager = ArchiveManager.GetInstance()
             event.reply('reply_archive_info', archiveManager.archiveInfoList)
         })
-
-        // EventHelper.GetInstance().On('reply_loading_progress', (bFinished, percent, subPercent, message) =>
-        // {
-        //     console.log("Get reply_loading_progress Of Event ")
-        //
-        //     console.log(webContents)
-        //
-        //     // ipcMain.send('reply_scan_local_files', bFinished, percent, subPercent, message || "Loading...")
-        // })
     }
 }

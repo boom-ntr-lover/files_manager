@@ -1,49 +1,35 @@
 <template>
     <div>
-        <archive-table-component v-if="!waiting"/>
+        <left-navigation></left-navigation>
+        <router-view class="view main-content" name="content"></router-view>
+<!--        <file-tree-component/>-->
     </div>
 </template>
 
 <script>
-import ArchiveTableComponent from '../components/ArchiveTableComponent'
+import LeftNavigation from "@/components/LeftNavigation.vue";
+// import FileTreeComponent from "@/components/FileTreeComponent.vue";
 
 export default {
     name: 'HomeView',
 
+    components: {
+        LeftNavigation,
+        // FileTreeComponent,
+    },
+
     data()
     {
         return {
-            waiting: true,
         }
-    },
-
-    components: {
-        ArchiveTableComponent,
     },
 
     created()
     {
-        if (ipcRendererApi.send('check_archive_loaded'))
-        {
-            this.waiting = true
-        }
     },
 
     mounted()
     {
-        ipcRendererApi.on('reply_archive_loaded', function (event, bLoaded)
-        {
-            this.waiting = false
-            if (bLoaded)
-            {
-
-            }
-            else
-            {
-                // TODO 逻辑有问题， Login 需要考虑顺序
-                // this.$router.push("/login")
-            }
-        }.bind(this))
     },
 }
 </script>

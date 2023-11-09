@@ -55,8 +55,7 @@ class FileManager
     {
         if (rootPath == null) rootPath = this.testScanPathRoot
 
-        // EventHelper.GetInstance().Emit('reply_loading_progress', false, 0, 10, '开始扫描文件...')
-        GlobalHelper.GetInstance().mainWindow.webContents.send('reply_scan_local_files', false, 0, 10, '开始扫描文件...')
+        EventHelper.SendToRenderer('reply_scan_local_files', false, 0, 10, '开始扫描文件...')
 
         // 清理文件信息
         for (let i = this.fileInfoList.length - 1; i >= 0; --i)
@@ -65,11 +64,7 @@ class FileManager
         // 读取目录中的所有文件路径
         this.ReadFileInfoFromPath(rootPath, [], this.fileInfoList)
 
-        // this.fileInfoList.forEach((fileInfo, index) => {
-        //     console.log(fileInfo)
-        // })
-
-        GlobalHelper.GetInstance().mainWindow.webContents.send('reply_scan_local_files', false, 10, 10, '扫描文件完毕')
+        EventHelper.SendToRenderer('reply_scan_local_files', true, 100, 100, '扫描文件完毕')
     }
 
     ReadFileInfoFromPath(rootPath, inputParenDir, fileInfoList)

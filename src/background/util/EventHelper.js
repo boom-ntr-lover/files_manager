@@ -1,3 +1,5 @@
+import GlobalHelper from "@/background/util/GlobalHelper";
+
 var events = require('events');
 
 class EventHelper
@@ -25,9 +27,9 @@ class EventHelper
         this.emitter.emit(eventName, ...args)
     }
 
-    SendToRenderer(eventName, ...args)
+    static SendToRenderer(eventName, ...args)
     {
-
+        GlobalHelper.GetInstance().mainWindow.webContents.send(eventName, ...args)
     }
 }
 
