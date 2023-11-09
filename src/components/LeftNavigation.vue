@@ -29,7 +29,7 @@
 
         <v-divider></v-divider>
         <!-- 文件夹列表-->
-        <router-view class="view main-content" name="file_tree" max-h></router-view>
+        <router-view class="view main-content" name="file_tree" ></router-view>
 
     </v-navigation-drawer>
 </template>
