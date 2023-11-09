@@ -4,7 +4,6 @@
         permanent
     >
 
-        <v-divider></v-divider>
         <v-list dense>
             <v-list-item-group
                 v-model="viewSelectItem"
@@ -21,11 +20,10 @@
                     <v-list-item-content>
                         <v-list-item-title v-text="item.text"></v-list-item-title>
                     </v-list-item-content>
+
                 </v-list-item>
             </v-list-item-group>
-
         </v-list>
-        <v-divider></v-divider>
 
     </v-navigation-drawer>
 </template>
@@ -38,19 +36,19 @@ export default {
             {
                 key: 'archive_view',
                 text: 'ArchiveView',
-                icon: 'mdi-clock',
+                icon: 'mdi-emoticon-kiss-outline',
                 path: '/archive_view',
             },
             {
                 key: 'real_file_tree',
-                text: 'FileView',
-                icon: 'mdi-account',
+                text: 'RealFileTree',
+                icon: 'mdi-file-tree-outline',
                 path: '/real_file_tree',
             },
             {
                 key: 'no_add_file_view',
-                text: 'FileView',
-                icon: 'mdi-account',
+                text: 'NeedAddFile',
+                icon: 'mdi-emoticon-poop',
                 path: '/no_add_file_view',
             },
         ],
