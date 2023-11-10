@@ -1,26 +1,35 @@
 <template>
-    <v-card
-        class="d-flex flex-row mb-6"
-        flat
-        tile
-    >
-        <!-- 左侧导航-->
-        <v-card
-            elevation="0"
-            class="md-1"
-        >
-            <left-navigation></left-navigation>
-        </v-card>
+    <v-container class="grey lighten-5">
+        <v-row no-gutters>
+            <v-col
+                cols="6"
+                md="4"
+            >
+                <!-- 左侧导航-->
+                <v-card
+                    elevation="0"
+                    class="md-1"
+                >
+                    <left-navigation></left-navigation>
+                </v-card>
+            </v-col>
 
-        <v-card
-            elevation="0"
-            class="md-9"
-            outlined
-        >
-            <router-view class="view main-content" name="content"></router-view>
-        </v-card>
+            <v-col
+                cols="12"
+                sm="6"
+                md="8"
+            >
+                <v-card
+                    elevation="0"
+                    class="md-9"
+                    outlined
+                >
+                    <router-view class="view main-content" name="content"></router-view>
+                </v-card>
+            </v-col>
+        </v-row>
 
-    </v-card>
+    </v-container>
 </template>
 
 <script>
