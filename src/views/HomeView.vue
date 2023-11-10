@@ -6,15 +6,19 @@
     >
         <!-- 左侧导航-->
         <v-card
+            elevation="0"
             class="md-1"
-            outlined
-            tile
         >
             <left-navigation></left-navigation>
-
         </v-card>
 
-        <router-view class="view main-content" name="content"></router-view>
+        <v-card
+            elevation="0"
+            class="md-9"
+            outlined
+        >
+            <router-view class="view main-content" name="content"></router-view>
+        </v-card>
 
     </v-card>
 </template>

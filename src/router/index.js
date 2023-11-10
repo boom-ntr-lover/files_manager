@@ -5,6 +5,7 @@ import LoadingView from '../views/LoadingView.vue'
 import HelloWorld from "@/components/HelloWorld.vue";
 import RealFileTreeView from "@/views/RealFileTreeView.vue";
 import FolderViewComponent from "@/components/FolderViewComponent";
+import AppendFileToArchiveView from "@/views/AppendFileToArchiveView.vue";
 
 Vue.use(VueRouter)
 
@@ -28,9 +29,9 @@ const routes = [
                 }
             },
             {
-                path: 'no_add_file_view',
+                path: 'append_file_to_archive_view',
                 components: {
-                    content: HelloWorld,
+                    content: AppendFileToArchiveView,
                     file_tree: FolderViewComponent,
                 }
             },

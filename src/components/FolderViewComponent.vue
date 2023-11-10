@@ -1,27 +1,34 @@
-<template>
-    <v-treeview
-        v-model="tree"
-        :open="initiallyOpen"
-        :items="items"
-        activatable
-        item-key="name"
-        open-on-click
-
-        class="text-caption"
-        dense
+<template
+    class="overflow-y-auto"
+>
+    <v-card
+        class="overflow-y-auto"
+        max-height="340"
     >
+        <v-treeview
+            v-model="tree"
+            :open="initiallyOpen"
+            :items="items"
+            activatable
+            item-key="name"
+            open-on-click
 
-        <template v-slot:prepend="{ item, open }">
-            <v-icon v-if="!item.file" class="text-md-body-1">
-                {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
-            </v-icon>
+            class="text-caption"
+            dense
+        >
 
-            <v-icon v-else class="text-md-body-1">
-                {{ files[item.file] }}
-            </v-icon>
-        </template>
+            <template v-slot:prepend="{ item, open }">
+                <v-icon v-if="!item.file">
+                    {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
+                </v-icon>
 
-    </v-treeview>
+                <v-icon v-else>
+                    {{ files[item.file] }}
+                </v-icon>
+            </template>
+
+        </v-treeview>
+    </v-card>
 </template>
 
 <script>

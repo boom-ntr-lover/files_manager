@@ -1,0 +1,49 @@
+<template>
+    <v-card
+        elevation="0"
+    >
+        <v-virtual-scroll
+            :bench="benched"
+            :items="items"
+            height="300"
+            width="200"
+            item-height="32"
+        >
+            <template v-slot:default="{ item }">
+                <v-list-item :key="item">
+
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            User Database Record <strong>ID {{ item }}</strong>
+                        </v-list-item-title>
+                    </v-list-item-content>
+
+                </v-list-item>
+
+                <v-divider></v-divider>
+            </template>
+        </v-virtual-scroll>
+    </v-card>
+</template>
+
+<script>
+export default {
+    data: () => ({
+        benched: 0,
+    }),
+    computed: {
+        items()
+        {
+            return Array.from({length: this.length}, (k, v) => v + 1)
+        },
+        length()
+        {
+            return 7000
+        },
+    },
+    mounted()
+    {
+        this.benched = 0
+    }
+}
+</script>

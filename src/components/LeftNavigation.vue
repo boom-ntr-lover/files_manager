@@ -52,10 +52,10 @@ export default {
                 path: '/real_file_tree',
             },
             {
-                key: 'no_add_file_view',
+                key: 'append_file_to_archive_view',
                 text: 'NeedAddFile',
                 icon: 'mdi-emoticon-poop',
-                path: '/no_add_file_view',
+                path: '/append_file_to_archive_view',
             },
         ],
     }),
@@ -69,7 +69,7 @@ export default {
 
     created()
     {
-        this.viewSelectItem = 1
+        this.viewSelectItem = 2
     },
 
     methods:
