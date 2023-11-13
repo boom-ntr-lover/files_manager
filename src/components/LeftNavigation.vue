@@ -35,9 +35,15 @@
             </v-row>
 
             <v-row>
-                <v-col>
+                <v-col
+
+                    style="max-height: 350px; overflow-y: auto"
+                >
                     <!-- 文件夹列表-->
-                    <router-view class="view main-content" name="file_tree"></router-view>
+                    <router-view
+                        class="view main-content"
+                        name="file_tree"
+                    ></router-view>
                 </v-col>
             </v-row>
 

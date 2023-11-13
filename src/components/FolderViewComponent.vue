@@ -9,6 +9,7 @@
 
         class="text-caption"
         dense
+
     >
 
         <template v-slot:prepend="{ item, open }">
