@@ -3,6 +3,9 @@
         <v-row>
             <v-col
                 cols="2"
+                lg="2"
+
+                style="background-color: blue"
             >
                 <!-- 左侧导航-->
                 <v-card
@@ -14,10 +17,14 @@
 
             <v-col
                 cols="10"
+                lg="10"
+
                 style="background-color: lightgray"
             >
                 <router-view name="content"></router-view>
             </v-col>
+
+            <v-col></v-col>
         </v-row>
     </v-container>
 </template>

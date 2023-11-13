@@ -4,32 +4,44 @@
         permanent
     >
 
-        <v-list dense>
-            <v-list-item-group
-                v-model="viewSelectItem"
-                color="primary"
-            >
-                <v-list-item
-                    v-for="(item, i) in items"
-                    :key="item.key"
-                >
-                    <v-list-item-icon>
-                        <v-icon v-text="item.icon"></v-icon>
-                    </v-list-item-icon>
+        <v-container>
+            <v-row>
+                <v-col>
+                    <v-list dense>
+                        <v-list-item-group
+                            v-model="viewSelectItem"
+                            color="primary"
+                        >
+                            <v-list-item
+                                v-for="(item, i) in items"
+                                :key="item.key"
+                            >
+                                <v-list-item-icon>
+                                    <v-icon v-text="item.icon"></v-icon>
+                                </v-list-item-icon>
 
-                    <v-list-item-content>
-                        <v-list-item-title v-text="item.text"></v-list-item-title>
-                    </v-list-item-content>
+                                <v-list-item-content>
+                                    <v-list-item-title v-text="item.text"></v-list-item-title>
+                                </v-list-item-content>
 
-                </v-list-item>
+                            </v-list-item>
 
-            </v-list-item-group>
+                        </v-list-item-group>
 
-        </v-list>
+                    </v-list>
 
-        <v-divider></v-divider>
-        <!-- 文件夹列表-->
-        <router-view class="view main-content" name="file_tree" ></router-view>
+                    <v-divider></v-divider>
+                </v-col>
+            </v-row>
+
+            <v-row>
+                <v-col>
+                    <!-- 文件夹列表-->
+                    <router-view class="view main-content" name="file_tree"></router-view>
+                </v-col>
+            </v-row>
+
+        </v-container>
 
     </v-navigation-drawer>
 </template>
