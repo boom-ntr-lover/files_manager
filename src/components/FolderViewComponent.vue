@@ -3,7 +3,6 @@
 >
     <v-card
         class="overflow-y-auto"
-        max-height="340"
     >
         <v-treeview
             v-model="tree"

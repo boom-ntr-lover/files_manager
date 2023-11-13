@@ -1,34 +1,24 @@
 <template>
-    <v-container class="grey lighten-5">
-        <v-row no-gutters>
+    <v-container fluid>
+        <v-row>
             <v-col
-                cols="6"
-                md="4"
+                cols="2"
             >
                 <!-- 左侧导航-->
                 <v-card
                     elevation="0"
-                    class="md-1"
                 >
                     <left-navigation></left-navigation>
                 </v-card>
             </v-col>
 
             <v-col
-                cols="12"
-                sm="6"
-                md="8"
+                cols="10"
+                style="background-color: lightgray"
             >
-                <v-card
-                    elevation="0"
-                    class="md-9"
-                    outlined
-                >
-                    <router-view class="view main-content" name="content"></router-view>
-                </v-card>
+                <router-view name="content"></router-view>
             </v-col>
         </v-row>
-
     </v-container>
 </template>
 

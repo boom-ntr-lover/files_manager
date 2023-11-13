@@ -2,11 +2,11 @@
     <v-card
         elevation="0"
     >
+
         <v-virtual-scroll
             :bench="benched"
             :items="items"
-            height="300"
-            width="200"
+            height="500"
             item-height="32"
         >
             <template v-slot:default="{ item }">
@@ -23,6 +23,7 @@
                 <v-divider></v-divider>
             </template>
         </v-virtual-scroll>
+
     </v-card>
 </template>
 
