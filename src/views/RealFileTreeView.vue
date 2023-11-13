@@ -12,8 +12,8 @@ export default {
     name: 'RealFileTreeView',
 
     data: () => ({
-
-    })
+        waiting: false
+    }),
 }
 
 </script>

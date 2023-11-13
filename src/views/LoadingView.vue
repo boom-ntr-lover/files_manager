@@ -49,7 +49,6 @@ export default {
     {
         if (ipcRendererApi.send('require_scan_local_files'))
         {
-            console.log("Send Msg")
             this.bWaiting = true
         }
     },

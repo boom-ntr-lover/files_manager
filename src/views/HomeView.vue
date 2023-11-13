@@ -4,8 +4,6 @@
             <v-col
                 cols="2"
                 lg="2"
-
-                style="background-color: blue"
             >
                 <!-- 左侧导航-->
                 <v-card

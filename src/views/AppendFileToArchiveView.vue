@@ -5,16 +5,16 @@
 
         <v-virtual-scroll
             :bench="benched"
-            :items="items"
+            :items="indexs"
             height="500"
             item-height="32"
         >
-            <template v-slot:default="{ item }">
-                <v-list-item :key="item">
+            <template v-slot:default="{ index }">
+                <v-list-item :key="index">
 
                     <v-list-item-content>
                         <v-list-item-title>
-                            User Database Record <strong>ID {{ item }}</strong>
+                            {{ fileInfoList[index].fileName }}
                         </v-list-item-title>
                     </v-list-item-content>
 
@@ -31,20 +31,39 @@
 export default {
     data: () => ({
         benched: 0,
+
+        fileInfoList: {}
     }),
+
     computed: {
-        items()
+        indexs()
         {
-            return Array.from({length: this.length}, (k, v) => v + 1)
-        },
-        length()
-        {
-            return 7000
+            return Array.from({ length: this.fileInfoList.length}, (k, v) => v)
         },
     },
+
     mounted()
     {
         this.benched = 0
-    }
+    },
+
+    created()
+    {
+        ipcRendererApi.on('reply_file_info_list', function (event, fileInfoList)
+        {
+            this.waiting = false
+
+            if (!fileInfoList)
+                return;
+
+            this.fileInfoList = fileInfoList
+
+        }.bind(this))
+
+        if (ipcRendererApi.send('require_file_info_list'))
+        {
+            this.waiting = true
+        }
+    },
 }
 </script>
