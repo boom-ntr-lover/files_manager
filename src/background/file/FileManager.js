@@ -108,8 +108,8 @@ class FileManager
                 {
                     // 返回文件名数组
                     if (
-                        fileName.endsWith('.md')
-                        || fileName.endsWith('.txt')
+                        fileName.endsWith('.mp4')
+                        || fileName.endsWith('.avi')
                     )
                     {
                         let fileInfo = new FileInfo(fileName)
