@@ -15,6 +15,13 @@
                     Welcome to Vuetify
                 </h1>
 
+                <v-btn
+                    elevation="2"
+                    @click="TestOpenFile"
+                >
+                    Test Open
+                </v-btn>
+
                 <p class="subheading font-weight-regular">
                     For help and collaboration with other Vuetify developers,
                     <br>please join our online
@@ -31,6 +38,14 @@
 <script>
 export default {
     name: 'HelloWorld',
+
+    methods:
+        {
+            TestOpenFile()
+            {
+                ipcRendererApi.send('test_play_file')
+            }
+        },
 
     data: () => ({
         overlay: false,
