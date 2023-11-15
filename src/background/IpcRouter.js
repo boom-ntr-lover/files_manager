@@ -1,6 +1,7 @@
 import ArchiveManager from "@/background/archive/ArchiveManager";
 import FileManager from "@/background/file/FileManager";
 import EventHelper from "@/background/util/EventHelper";
+import {app} from "electron";
 
 const { ipcMain, webContents} = require("electron");
 const { execFile, exec } = require("child_process")
@@ -34,11 +35,17 @@ export default {
             event.reply('reply_archive_info', archiveManager.archiveInfoList)
         })
 
-        ipcMain.on('test_play_file', (event, arg) =>
+        ipcMain.on('test_play_file', (event, filePath) =>
         {
             // 执行查询命令
-            let filePath = "/Users/wangzixiao/Github/files_manager/TestScanFilePath/dir0_fle1.txt";
-            const res = exec("open " + filePath);
+            console.log(filePath)
+
+            var res
+            if (process.platform === 'darwin')
+                res = exec("open " + filePath);
+            else
+                res = exec("start " + filePath);
+
         })
     }
 }

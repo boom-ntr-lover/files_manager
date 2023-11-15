@@ -1,97 +1,141 @@
 <template>
     <v-treeview
-        v-model="tree"
-        :open="initiallyOpen"
-        :items="items"
-        activatable
-        item-key="name"
-        open-on-click
-
         class="text-caption"
+
+        v-model="tree"
+        :items="items"
+        :active="active"
+        :open="opened"
+
+        return-object
+        open-on-click
+        activatable
         dense
 
+        item-key="name"
+        active-class="folder-active-dis"
+
+        @update:active="TreeViewActive"
+        @update:open="TreeViewOpen"
     >
 
-        <template v-slot:prepend="{ item, open }">
-            <v-icon v-if="!item.file">
+        <template v-slot:prepend="{ item, open, active, indeterminate }">
+            <v-icon>
                 {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
             </v-icon>
+        </template>
 
-            <v-icon v-else>
-                {{ files[item.file] }}
-            </v-icon>
+        <template v-slot:label="{ item, open, active, indeterminate }">
+            <v-btn
+                :color="activeId === item.id ? 'red' : 'gray'"
+
+                elevation="0"
+                block
+                plain
+                small
+            >
+                {{ item.name }}
+            </v-btn>
+
         </template>
 
     </v-treeview>
 </template>
 
+<style>
+
+.folder-active-dis
+{ }
+
+.folder-active
+{
+    color: yellow;
+}
+
+.folder-no-active
+{ }
+
+</style>
+
 <script>
 export default {
     data: () => ({
-        initiallyOpen: ['public'],
-        files: {
-            html: 'mdi-language-html5',
-            js: 'mdi-nodejs',
-            json: 'mdi-code-json',
-            md: 'mdi-language-markdown',
-            pdf: 'mdi-file-pdf',
-            png: 'mdi-file-image',
-            txt: 'mdi-file-document-outline',
-            xls: 'mdi-file-excel',
-        },
         tree: [],
         items: [
             {
+                id: 0,
                 name: '.git',
             },
             {
+                id: 1,
                 name: 'node_modules',
             },
             {
+                id: 2,
                 name: 'public',
                 children: [
                     {
-                        name: 'static',
-                        children: [{
-                            name: 'logo.png',
-                            file: 'png',
-                        }],
-                    },
-                    {
-                        name: 'favicon.ico',
-                        file: 'png',
-                    },
-                    {
-                        name: 'index.html',
-                        file: 'html',
+                        id: 3,
+                        name: 'public-1',
                     },
                 ],
             },
-            {
-                name: '.gitignore',
-                file: 'txt',
-            },
-            {
-                name: 'babel.config.js',
-                file: 'js',
-            },
-            {
-                name: 'package.json',
-                file: 'json',
-            },
-            {
-                name: 'README.md',
-                file: 'md',
-            },
-            {
-                name: 'vue.config.js',
-                file: 'js',
-            },
-            {
-                name: 'yarn.lock',
-                file: 'txt',
-            },
         ],
+
+        preOpened: [],
+        opened: [],
+
+        preActive: [],
+        active: [],
+
+        activeId: null,
     }),
+
+    methods: {
+        TreeViewActive(item)
+        {
+            if (item.length === 0)
+            {
+                if (this.preActive.length > 0)
+                {
+                    this.active = this.preActive
+                }
+                return
+            }
+
+            this.preActive = []
+            this.preActive.push(item[0])
+
+            // Active
+            this.ActiveItemAction(item[0])
+        },
+
+        TreeViewOpen(item)
+        {
+            // Active
+            let activeItem
+            if (item.length > 0)
+            {
+                activeItem = item[0]
+                this.preOpened = item
+            }
+            else
+            {
+                activeItem = this.preOpened[0]
+            }
+
+            if (activeItem)
+                this.ActiveItemAction(activeItem)
+        },
+
+        ActiveItemAction(item)
+        {
+            if (this.activeId === item.id)
+                return
+
+            this.activeId = item.id
+            console.log("TreeViewOpen ", this.activeId);
+        },
+    },
 }
 </script>

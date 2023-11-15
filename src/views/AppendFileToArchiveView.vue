@@ -7,16 +7,23 @@
             :bench="benched"
             :items="indexs"
             height="500"
-            item-height="32"
+            item-height="46"
         >
             <template v-slot:default="{ index }">
                 <v-list-item :key="index">
 
-                    <v-list-item-content>
-                        <v-list-item-title>
+                        <v-card
+                            elevation="0"
+                            class="pa-0 ma-0"
+                        >
                             {{ fileInfoList[index].fileName }}
-                        </v-list-item-title>
-                    </v-list-item-content>
+                            <v-btn
+                                elevation="2"
+                                @click="playFile(index)"
+                            >
+                                Play
+                            </v-btn>
+                        </v-card>
 
                 </v-list-item>
 
@@ -65,5 +72,14 @@ export default {
             this.waiting = true
         }
     },
+
+    methods:
+    {
+        playFile(index)
+        {
+            // console.log(this.fileInfoList[index].absPath)
+            ipcRendererApi.send('test_play_file', this.fileInfoList[index].absPath)
+        }
+    }
 }
 </script>

@@ -1,14 +1,16 @@
-import { join, extname } from "path";
+import {join, extname} from "path";
 import fs from "fs";
 import FileInfo from "@/background/file/FileInfo";
 import EventHelper from "@/background/util/EventHelper";
-import GlobalHelper from "@/background/util/GlobalHelper";
 
 class FileManager
 {
-    constructor() {
+    constructor()
+    {
         this.dbPathRoot = "./data/"
-        this.testScanPathRoot = "./TestScanFilePath"
+
+        // TODO 测试内容
+        this.testScanPathRoot = "E:\\Github\\files_manager\\TestScanFilePath"
 
         /// FileInfo
         this.fileInfoList = []
@@ -16,7 +18,7 @@ class FileManager
         // DB目录如果不存在则开场创建一个
         if (!fs.existsSync(this.dbPathRoot))
         {
-            fs.mkdirSync(this.dbPathRoot, { recursive: true });
+            fs.mkdirSync(this.dbPathRoot, {recursive: true});
         }
     }
 
@@ -35,12 +37,14 @@ class FileManager
     {
         let filePath = join('./', this.dbPathRoot, fileName)
 
-        fs.access(filePath, (err)=>
+        fs.access(filePath, (err) =>
         {
             if (err)
             {
-                fs.writeFile(filePath,'',(err)=>{
-                    if (err) {
+                fs.writeFile(filePath, '', (err) =>
+                {
+                    if (err)
+                    {
                         console.error('Create', filePath, 'Error:', err)
                     }
                 })
@@ -70,7 +74,8 @@ class FileManager
     ReadFileInfoFromPath(rootPath, inputParenDir, fileInfoList)
     {
         let parentDir = []
-        inputParenDir.forEach((dir) => {
+        inputParenDir.forEach((dir) =>
+        {
             parentDir.push(dir)
         })
 
@@ -98,13 +103,13 @@ class FileManager
                 if (isDir)
                 {
                     let outParentDir = []
-                    inputParenDir.forEach((dir) => {
+                    inputParenDir.forEach((dir) =>
+                    {
                         outParentDir.push(dir)
                     })
                     outParentDir.push(fileName)
                     this.ReadFileInfoFromPath(filePath, outParentDir, fileInfoList)
-                }
-                else if (isFile)
+                } else if (isFile)
                 {
                     // 返回文件名数组
                     if (
@@ -114,7 +119,8 @@ class FileManager
                     {
                         let fileInfo = new FileInfo(fileName)
                         fileInfo.absPath = filePath
-                        parentDir.forEach((dir) => {
+                        parentDir.forEach((dir) =>
+                        {
                             fileInfo.parentDir.push(dir)
                         })
                         fileInfoList.push(fileInfo)
