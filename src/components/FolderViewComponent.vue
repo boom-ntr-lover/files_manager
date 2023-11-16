@@ -30,7 +30,6 @@
                 :color="activeId === item.id ? 'red' : 'gray'"
 
                 elevation="0"
-                block
                 plain
                 small
             >
@@ -81,8 +80,6 @@ export default {
             if (!rootFolderInfo)
                 return;
 
-            console.log(rootFolderInfo)
-
             this.items = []
             this.LoadFolderInfo(this.items, rootFolderInfo)
         }.bind(this))
@@ -109,21 +106,45 @@ export default {
             this.ActiveItemAction(item[0])
         },
 
-        TreeViewOpen(item)
+        TreeViewOpen(items)
         {
             // Active
             let activeItem
-            if (item.length > 0)
+            if (items.length > 0)
             {
-                activeItem = item[0]
-                this.preOpened = item
+                if (this.preOpened && this.preOpened.length > 0)
+                {
+                    for (let i_item = 0; i_item < items.length; i_item++)
+                    {
+                        let preOpened = false
+                        let item = items[i_item]
+                        for (let i = 0; i < this.preOpened.length; i++)
+                        {
+                            let preOpenedItem = this.preOpened[i]
+                            if (preOpenedItem.id === item.id)
+                            {
+                                preOpened = true
+                                break
+                            }
+                        }
+                        if (!preOpened)
+                        {
+                            activeItem = item
+                            break
+                        }
+                    }
+                }
+                else
+                {
+                    activeItem = items[0]
+                }
+
+                this.preOpened = items
             }
             else
             {
                 activeItem = this.preOpened[0]
             }
-
-            console.log(activeItem)
 
             if (activeItem)
                 this.ActiveItemAction(activeItem)
@@ -135,6 +156,7 @@ export default {
                 return
 
             this.activeId = item.id
+
             console.log("TreeViewOpen ", this.activeId);
 
             // if (ipcRendererApi.send('require_append_file_info_list', {

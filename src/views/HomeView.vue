@@ -2,7 +2,7 @@
     <v-container fluid>
         <v-row>
             <v-col
-                cols="2"
+                cols="3"
                 lg="2"
             >
                 <!-- 左侧导航-->
@@ -14,7 +14,7 @@
             </v-col>
 
             <v-col
-                cols="10"
+                cols="9"
                 lg="10"
 
                 style="background-color: lightgray"
