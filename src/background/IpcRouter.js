@@ -15,10 +15,16 @@ export default {
             FileManager.GetInstance().ScanFileInfoFromPath(null)
         })
 
-        // Get FileInfo List
-        ipcMain.on('require_file_info_list', (event, arg) =>
+        // Folder 列表
+        ipcMain.on('require_folder_list', (event, arg) =>
         {
-            event.reply('reply_file_info_list', FileManager.GetInstance().fileInfoList)
+            event.reply('reply_folder_list', FileManager.GetInstance().rootFolder)
+        })
+
+        // Get FileInfo List
+        ipcMain.on('require_append_file_info_list', (event, arg) =>
+        {
+            event.reply('reply_append_file_info_list', FileManager.GetInstance().fileInfoList)
         })
 
         // 检查 ArchiveManager 是否加载数据库

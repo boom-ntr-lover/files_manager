@@ -56,7 +56,7 @@ export default {
 
     created()
     {
-        ipcRendererApi.on('reply_file_info_list', function (event, fileInfoList)
+        ipcRendererApi.on('reply_append_file_info_list', function (event, fileInfoList)
         {
             this.waiting = false
 
@@ -66,18 +66,12 @@ export default {
             this.fileInfoList = fileInfoList
 
         }.bind(this))
-
-        if (ipcRendererApi.send('require_file_info_list'))
-        {
-            this.waiting = true
-        }
     },
 
     methods:
     {
         playFile(index)
         {
-            // console.log(this.fileInfoList[index].absPath)
             ipcRendererApi.send('test_play_file', this.fileInfoList[index].absPath)
         }
     }

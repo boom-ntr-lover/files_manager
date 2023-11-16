@@ -2,6 +2,7 @@ import {join, extname} from "path";
 import fs from "fs";
 import FileInfo from "@/background/file/FileInfo";
 import EventHelper from "@/background/util/EventHelper";
+import FolderInfo from "@/background/file/FolderInfo";
 
 class FileManager
 {
@@ -14,6 +15,8 @@ class FileManager
 
         /// FileInfo
         this.fileInfoList = []
+
+        this.rootFolder = null
 
         // DB目录如果不存在则开场创建一个
         if (!fs.existsSync(this.dbPathRoot))
@@ -65,20 +68,16 @@ class FileManager
         for (let i = this.fileInfoList.length - 1; i >= 0; --i)
             this.RemoveFileInfo(i)
 
+        this.rootFolder = new FolderInfo('./')
+
         // 读取目录中的所有文件路径
-        this.ReadFileInfoFromPath(rootPath, [], this.fileInfoList)
+        this.ReadFileInfoFromPath(rootPath, this.rootFolder, this.fileInfoList)
 
         EventHelper.SendToRenderer('reply_scan_local_files', true, 100, 100, '扫描文件完毕')
     }
 
-    ReadFileInfoFromPath(rootPath, inputParenDir, fileInfoList)
+    ReadFileInfoFromPath(rootPath, folderInfo, fileInfoList)
     {
-        let parentDir = []
-        inputParenDir.forEach((dir) =>
-        {
-            parentDir.push(dir)
-        })
-
         let files = fs.readdirSync(rootPath)
         // 读取目录中的所有文件
         if (!files)
@@ -102,13 +101,9 @@ class FileManager
                 const isDir = stats.isDirectory();  //是文件夹
                 if (isDir)
                 {
-                    let outParentDir = []
-                    inputParenDir.forEach((dir) =>
-                    {
-                        outParentDir.push(dir)
-                    })
-                    outParentDir.push(fileName)
-                    this.ReadFileInfoFromPath(filePath, outParentDir, fileInfoList)
+                    var curFolder = new FolderInfo(fileName)
+                    folderInfo.childFolder.push(curFolder)
+                    this.ReadFileInfoFromPath(filePath, curFolder, fileInfoList)
                 } else if (isFile)
                 {
                     // 返回文件名数组
@@ -119,11 +114,10 @@ class FileManager
                     {
                         let fileInfo = new FileInfo(fileName)
                         fileInfo.absPath = filePath
-                        parentDir.forEach((dir) =>
-                        {
-                            fileInfo.parentDir.push(dir)
-                        })
+                        fileInfo.folderInfo = folderInfo
                         fileInfoList.push(fileInfo)
+
+                        folderInfo.fileInfoList.push(fileInfo)
                     }
                 }
             }

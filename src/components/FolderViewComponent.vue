@@ -9,7 +9,6 @@
 
         return-object
         open-on-click
-        activatable
         dense
 
         item-key="name"
@@ -44,16 +43,13 @@
 
 <style>
 
-.folder-active-dis
-{ }
+.folder-active-dis { }
 
-.folder-active
-{
-    color: yellow;
+.folder-active {
+    color: Red;
 }
 
-.folder-no-active
-{ }
+.folder-no-active { }
 
 </style>
 
@@ -64,21 +60,7 @@ export default {
         items: [
             {
                 id: 0,
-                name: '.git',
-            },
-            {
-                id: 1,
-                name: 'node_modules',
-            },
-            {
-                id: 2,
-                name: 'public',
-                children: [
-                    {
-                        id: 3,
-                        name: 'public-1',
-                    },
-                ],
+                name: './',
             },
         ],
 
@@ -90,6 +72,22 @@ export default {
 
         activeId: null,
     }),
+
+    mounted()
+    {
+        ipcRendererApi.on('reply_folder_list', function (event, rootFolderInfo)
+        {
+            if (!rootFolderInfo)
+                return;
+
+            console.log(rootFolderInfo)
+
+            this.items = []
+            this.LoadFolderInfo(this.items, rootFolderInfo)
+        }.bind(this))
+
+        ipcRendererApi.send('require_folder_list')
+    },
 
     methods: {
         TreeViewActive(item)
@@ -118,8 +116,7 @@ export default {
             {
                 activeItem = item[0]
                 this.preOpened = item
-            }
-            else
+            } else
             {
                 activeItem = this.preOpened[0]
             }
@@ -135,7 +132,31 @@ export default {
 
             this.activeId = item.id
             console.log("TreeViewOpen ", this.activeId);
+
+            // if (ipcRendererApi.send('require_append_file_info_list', {
+            //     order_by: 'id',
+            // }))
+            // {
+            //     console.log("Send Msg")
+            //     this.waiting = true
+            // }
         },
+
+        ///@param FolderInfo
+        LoadFolderInfo(items, folderInfo)
+        {
+            let item = {
+                id: folderInfo.id,
+                name: folderInfo.folderName,
+                children: [],
+            }
+            items.push(item)
+
+            let childFolder = folderInfo.childFolder
+            childFolder.forEach(element => {
+                this.LoadFolderInfo(item.children, element)
+            });
+        }
     },
 }
 </script>
