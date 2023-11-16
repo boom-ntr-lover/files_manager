@@ -9,6 +9,7 @@
 
         return-object
         open-on-click
+        activatable
         dense
 
         item-key="name"
@@ -116,10 +117,13 @@ export default {
             {
                 activeItem = item[0]
                 this.preOpened = item
-            } else
+            }
+            else
             {
                 activeItem = this.preOpened[0]
             }
+
+            console.log(activeItem)
 
             if (activeItem)
                 this.ActiveItemAction(activeItem)
