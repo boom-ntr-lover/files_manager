@@ -64,7 +64,8 @@ export default {
             },
         ],
 
-        preOpened: [],
+        rootFolderInfo: null,
+        preOpenedId: [],
         opened: [],
 
         preActive: [],
@@ -80,6 +81,7 @@ export default {
             if (!rootFolderInfo)
                 return;
 
+            this.rootFolderInfo = rootFolderInfo
             this.items = []
             this.LoadFolderInfo(this.items, rootFolderInfo)
         }.bind(this))
@@ -108,46 +110,52 @@ export default {
 
         TreeViewOpen(items)
         {
-            // Active
-            let activeItem
-            if (items.length > 0)
-            {
-                if (this.preOpened && this.preOpened.length > 0)
-                {
-                    for (let i_item = 0; i_item < items.length; i_item++)
-                    {
-                        let preOpened = false
-                        let item = items[i_item]
-                        for (let i = 0; i < this.preOpened.length; i++)
-                        {
-                            let preOpenedItem = this.preOpened[i]
-                            if (preOpenedItem.id === item.id)
-                            {
-                                preOpened = true
-                                break
-                            }
-                        }
-                        if (!preOpened)
-                        {
-                            activeItem = item
-                            break
-                        }
-                    }
-                }
-                else
-                {
-                    activeItem = items[0]
-                }
-
-                this.preOpened = items
-            }
-            else
-            {
-                activeItem = this.preOpened[0]
-            }
-
-            if (activeItem)
-                this.ActiveItemAction(activeItem)
+            // // Active
+            // let activeItem
+            // if (items.length > 0)
+            // {
+            //     if (this.preOpenedId && this.preOpenedId.length > 0)
+            //     {
+            //         for (let i_item = 0; i_item < items.length; i_item++)
+            //         {
+            //             let preOpened = false
+            //             let item = items[i_item]
+            //             for (let i = 0; i < this.preOpenedId.length; i++)
+            //             {
+            //                 let preOpenedId = this.preOpenedId[i]
+            //                 if (preOpenedId === item.id)
+            //                 {
+            //                     preOpened = true
+            //                     break
+            //                 }
+            //             }
+            //             if (!preOpened)
+            //             {
+            //                 activeItem = item
+            //                 break
+            //             }
+            //         }
+            //     }
+            //     else
+            //     {
+            //         activeItem = items[0]
+            //     }
+            // }
+            // else
+            // {
+            //     activeItem = this.preOpenedId[0]
+            // }
+            //
+            // this.preOpenedId = []
+            // for (let i = 0; i < items.length; i++)
+            // {
+            //     let item = items[i]
+            //     this.preOpenedId.push(item.id)
+            // }
+            // console.log(this.preOpenedId)
+            //
+            // if (activeItem)
+            //     this.ActiveItemAction(activeItem)
         },
 
         ActiveItemAction(item)
@@ -159,13 +167,12 @@ export default {
 
             console.log("TreeViewOpen ", this.activeId);
 
-            // if (ipcRendererApi.send('require_append_file_info_list', {
-            //     order_by: 'id',
-            // }))
-            // {
-            //     console.log("Send Msg")
-            //     this.waiting = true
-            // }
+            if (ipcRendererApi.send('require_append_file_info_list', {
+                folderId: this.activeId,
+            }))
+            {
+                this.waiting = true
+            }
         },
 
         ///@param FolderInfo

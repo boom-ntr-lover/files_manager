@@ -22,9 +22,13 @@ export default {
         })
 
         // Get FileInfo List
-        ipcMain.on('require_append_file_info_list', (event, arg) =>
+        ipcMain.on('require_append_file_info_list', (event, args) =>
         {
-            event.reply('reply_append_file_info_list', FileManager.GetInstance().fileInfoList)
+            let folderId = args.folderId
+            let fileMan = FileManager.GetInstance()
+            var targetFolderInfo = fileMan.GetFolderInfoById(folderId, fileMan.rootFolder)
+            if (targetFolderInfo)
+                event.reply('reply_append_file_info_list', targetFolderInfo.fileInfoList)
         })
 
         // 检查 ArchiveManager 是否加载数据库

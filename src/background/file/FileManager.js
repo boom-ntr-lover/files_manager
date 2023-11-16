@@ -102,6 +102,7 @@ class FileManager
                 if (isDir)
                 {
                     var curFolder = new FolderInfo(fileName)
+                    curFolder.parentFolder = folderInfo
                     folderInfo.childFolder.push(curFolder)
                     this.ReadFileInfoFromPath(filePath, curFolder, fileInfoList)
                 } else if (isFile)
@@ -134,6 +135,27 @@ class FileManager
         let archiveInfo = fileInfo.pArchiveInfo
         if (archiveInfo != null)
             archiveInfo.filtInfoList.splice(archiveInfo.filtInfoList.indexOf(fileInfo), 1)
+    }
+
+    // 根据ID 获取 Folder
+    GetFolderInfoById(id, folderInfo)
+    {
+        if (!folderInfo) return null;
+
+        if (folderInfo && folderInfo.id === id)
+            return folderInfo
+
+        for (let i = 0; i < folderInfo.childFolder.length; ++i)
+        {
+            let childFolder = folderInfo.childFolder[i]
+            let res = this.GetFolderInfoById(id, childFolder)
+            if (res != null)
+            {
+                return res
+            }
+        }
+
+        return null
     }
 }
 

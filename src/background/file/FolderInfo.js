@@ -6,6 +6,7 @@ class FolderInfo {
 
         this.folderName = folderName
 
+        this.parentFolder = null
         this.childFolder = []
 
         this.fileInfoList = []
