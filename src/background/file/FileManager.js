@@ -1,8 +1,11 @@
-import {join, extname} from "path";
+const truncate = require('truncate-utf8-bytes');
+
+import {join, extname, basename } from "path";
 import fs from "fs";
 import FileInfo from "@/background/file/FileInfo";
 import EventHelper from "@/background/util/EventHelper";
 import FolderInfo from "@/background/file/FolderInfo";
+import {app} from "electron";
 
 class FileManager
 {
@@ -12,6 +15,11 @@ class FileManager
 
         // TODO 测试内容
         this.testScanPathRoot = "E:\\Github\\files_manager\\TestScanFilePath"
+        if (process.platform !== 'win32')
+        {
+            // this.testScanPathRoot = "/Users/wangzixiao/Github/files_manager/TestScanFIlePath"
+            this.testScanPathRoot = "/Volumes/4T-Ext/Videos"
+        }
 
         /// FileInfo
         this.fileInfoList = []
@@ -123,6 +131,17 @@ class FileManager
                 }
             }
         }
+    }
+    trimFilenameToBytes(filename, maxBytes = 255)
+    {
+        // By extracting the file extension from the filename,
+        // it'll trim "verylong.pdf" to "verylo.pdf" and not "verylong.p"
+        const ext = extname(filename);
+        const base = basename(filename, ext);
+        const length = Buffer.byteLength(ext);
+        const shorter = truncate(base, Math.max(0, maxBytes - length)) + ext;
+        // Just in case the file extension's length is more than maxBytes.
+        return truncate(shorter, maxBytes);
     }
 
     // 销毁文件信息
