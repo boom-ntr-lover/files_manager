@@ -26,15 +26,21 @@
         </template>
 
         <template v-slot:label="{ item, open, active, indeterminate }">
-            <v-btn
-                :color="activeId === item.id ? 'red' : 'gray'"
+<!--            <v-btn-->
+<!--                :color="activeId === item.id ? 'red' : 'gray'"-->
 
-                elevation="0"
-                plain
-                small
-            >
+<!--                elevation="0"-->
+<!--                plain-->
+<!--                small-->
+<!--            >-->
+<!--                {{ item.name }}-->
+<!--            </v-btn>-->
+
+            <div
+                :class="activeId === item.id ? 'folder-active' : 'folder-no-active'">
+
                 {{ item.name }}
-            </v-btn>
+            </div>
 
         </template>
 
@@ -65,7 +71,7 @@ export default {
         ],
 
         rootFolderInfo: null,
-        preOpenedId: [],
+        preOpenedId: {},
         opened: [],
 
         preActive: [],
@@ -105,7 +111,7 @@ export default {
             this.preActive.push(item[0])
 
             // Active
-            this.ActiveItemAction(item[0])
+            this.ActiveItemAction(item[0].id)
         },
 
         TreeViewOpen(items)
@@ -145,25 +151,47 @@ export default {
             // {
             //     activeItem = this.preOpenedId[0]
             // }
-            //
-            // this.preOpenedId = []
-            // for (let i = 0; i < items.length; i++)
-            // {
-            //     let item = items[i]
-            //     this.preOpenedId.push(item.id)
-            // }
-            // console.log(this.preOpenedId)
-            //
-            // if (activeItem)
-            //     this.ActiveItemAction(activeItem)
+
+            // Get item 和 preOpenedId 之间的差异ID
+            let activeId = -1
+            // 检查新增
+            for (let i = 0; i < items.length; i++)
+            {
+                let item = items[i]
+                let itemId = item.id
+                if (!this.preOpenedId[itemId])
+                {
+                    activeId = itemId
+                }
+            }
+            // 检查关闭
+            if (activeId === -1)
+            {
+                for(let i = 0, keys=Object.keys(this.preOpenedId); i < keys.length; i++)
+                {
+                    let key = keys[i]
+                    let id = this.preOpenedId[key]
+
+                }
+            }
+
+            this.preOpenedId = {}
+            for (let i = 0; i < items.length; i++)
+            {
+                let item = items[i]
+                this.preOpenedId[item.id] = true
+            }
+
+            if (activeId >= 0)
+                this.ActiveItemAction(activeId)
         },
 
-        ActiveItemAction(item)
+        ActiveItemAction(activeId)
         {
-            if (this.activeId === item.id)
+            if (this.activeId === activeId)
                 return
 
-            this.activeId = item.id
+            this.activeId = activeId
 
             console.log("TreeViewOpen ", this.activeId);
 
