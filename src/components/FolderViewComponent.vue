@@ -116,42 +116,6 @@ export default {
 
         TreeViewOpen(items)
         {
-            // // Active
-            // let activeItem
-            // if (items.length > 0)
-            // {
-            //     if (this.preOpenedId && this.preOpenedId.length > 0)
-            //     {
-            //         for (let i_item = 0; i_item < items.length; i_item++)
-            //         {
-            //             let preOpened = false
-            //             let item = items[i_item]
-            //             for (let i = 0; i < this.preOpenedId.length; i++)
-            //             {
-            //                 let preOpenedId = this.preOpenedId[i]
-            //                 if (preOpenedId === item.id)
-            //                 {
-            //                     preOpened = true
-            //                     break
-            //                 }
-            //             }
-            //             if (!preOpened)
-            //             {
-            //                 activeItem = item
-            //                 break
-            //             }
-            //         }
-            //     }
-            //     else
-            //     {
-            //         activeItem = items[0]
-            //     }
-            // }
-            // else
-            // {
-            //     activeItem = this.preOpenedId[0]
-            // }
-
             // Get item 和 preOpenedId 之间的差异ID
             let activeId = -1
             // 检查新增
@@ -162,16 +126,28 @@ export default {
                 if (!this.preOpenedId[itemId])
                 {
                     activeId = itemId
+                    break
                 }
             }
+
             // 检查关闭
             if (activeId === -1)
             {
                 for(let i = 0, keys=Object.keys(this.preOpenedId); i < keys.length; i++)
                 {
-                    let key = keys[i]
-                    let id = this.preOpenedId[key]
-
+                    let id = parseInt(keys[i])
+                    let opening = false
+                    for (let j = 0; j < items.length; j++)
+                    {
+                        let item = items[j]
+                        if (item.id === id)
+                        {
+                            opening = true
+                            break
+                        }
+                    }
+                    if (!opening)
+                        activeId = id
                 }
             }
 
@@ -192,8 +168,6 @@ export default {
                 return
 
             this.activeId = activeId
-
-            console.log("TreeViewOpen ", this.activeId);
 
             if (ipcRendererApi.send('require_append_file_info_list', {
                 folderId: this.activeId,
