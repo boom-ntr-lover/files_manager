@@ -31,6 +31,12 @@ export default {
                 event.reply('reply_append_file_info_list', targetFolderInfo)
         })
 
+        // Folder 列表
+        ipcMain.on('query_archive_info_list_by_name', (event, arg) =>
+        {
+            event.reply('reply_query_archive_info_list_by_name', ArchiveManager.GetInstance().archiveInfoList)
+        })
+
         // 检查 ArchiveManager 是否加载数据库
         ipcMain.on('check_archive_loaded', (event, arg) =>
         {
@@ -47,9 +53,6 @@ export default {
 
         ipcMain.on('test_play_file', (event, filePath) =>
         {
-            // 执行查询命令
-            console.log(filePath)
-
             var res
             if (process.platform === 'darwin')
                 res = exec("open " + filePath);

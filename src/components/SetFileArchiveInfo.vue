@@ -7,7 +7,7 @@
         >
             <v-card>
                 <v-card-title>
-                    <span class="text-h5"> {{ fileInfo ? fileInfo.fileName : '' }} </span>
+                    <span class="text-h5"> {{ fileName }} </span>
                 </v-card-title>
 
                 <v-card-text>
@@ -26,9 +26,10 @@
                                     flat
                                     hide-no-data
                                     hide-details
-                                    label="What state are you from?"
+                                    label="Select Archive"
                                     solo-inverted
-                                ></v-autocomplete>
+                                >
+                                </v-autocomplete>
 
                             </v-col>
                         </v-row>
@@ -64,9 +65,11 @@ export default {
     data: () => ({
         dialog: false,
         fileInfo: null,
+        fileName: '',
 
         loading: false,
         items: [],
+        searchInput: "",
         search: null,
         select: null,
         states: [
@@ -82,6 +85,24 @@ export default {
         },
     },
 
+    created()
+    {
+        ipcRendererApi.on('reply_query_archive_info_list_by_name', function (event, archiveInfoList)
+        {
+            this.items = []
+            archiveInfoList.forEach(archiveInfo =>
+            {
+                let archiveName = archiveInfo.name
+                if ((archiveName || '').toLowerCase().indexOf((this.searchInput || '').toLowerCase()) > -1)
+                {
+                    this.items.push(archiveName)
+                }
+            })
+
+            this.loading = false
+        }.bind(this))
+    },
+
     methods:
         {
             SetFileInfo(fileInfo)
@@ -89,25 +110,22 @@ export default {
                 this.dialog = true
                 this.fileInfo = fileInfo
 
-                // 获取一个近似的 Archive
-                // fileInfo
+                let names = this.fileInfo.fileName.split('.')
+                if (names.length === 0)
+                    return
+
+                this.fileName = names[0]
             },
 
             SetFileToArchive()
             {
             },
+
             querySelections(v)
             {
+                this.searchInput = v
+                ipcRendererApi.send('query_archive_info_list_by_name')
                 this.loading = true
-                // Simulated ajax query
-                setTimeout(() =>
-                {
-                    this.items = this.states.filter(e =>
-                    {
-                        return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
-                    })
-                    this.loading = false
-                }, 500)
             },
         }
 }

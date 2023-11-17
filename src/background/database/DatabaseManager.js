@@ -73,9 +73,6 @@ class DatabaseManager
             return;
         }
 
-        // if (process.env.NODE_ENV !== 'production')
-        //     console.log("👉👉👉 Do Sql Query: \n", sqlStr)
-
         instance.archiveDB.all(sqlStr, (err, row) =>
         {
             if (err)

@@ -39,7 +39,6 @@ export default {
             order_by: 'id',
         }))
         {
-            console.log("Send Msg")
             this.waiting = true
         }
     },
