@@ -28,7 +28,7 @@ export default {
             let fileMan = FileManager.GetInstance()
             var targetFolderInfo = fileMan.GetFolderInfoById(folderId, fileMan.rootFolder)
             if (targetFolderInfo)
-                event.reply('reply_append_file_info_list', targetFolderInfo.fileInfoList)
+                event.reply('reply_append_file_info_list', targetFolderInfo)
         })
 
         // 检查 ArchiveManager 是否加载数据库
