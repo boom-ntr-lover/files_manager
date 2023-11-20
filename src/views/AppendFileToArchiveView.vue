@@ -26,6 +26,12 @@
                         >
                             Add
                         </v-btn>
+
+<!--                        <v-btn-->
+<!--                            @click="playFile(index)"-->
+<!--                        >-->
+<!--                            Play-->
+<!--                        </v-btn>-->
                     </v-card>
 
                 </v-list-item>
