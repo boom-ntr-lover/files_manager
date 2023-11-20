@@ -47,6 +47,13 @@ class ArchiveManager
             this.bLoaded = true
         })
     }
+
+    // 模糊搜索名字相近的 ArchiveInfo
+    GetArchiveInfoByName(name)
+    {
+        const regex = new RegExp(name, "i")
+        return this.archiveInfoList.filter(archiveInfo => regex.test(name))
+    }
 }
 
 export default ArchiveManager

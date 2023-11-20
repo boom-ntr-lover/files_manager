@@ -32,9 +32,9 @@ export default {
         })
 
         // Folder 列表
-        ipcMain.on('query_archive_info_list_by_name', (event, arg) =>
+        ipcMain.on('query_archive_info_list_by_name', (event, file_name) =>
         {
-            event.reply('reply_query_archive_info_list_by_name', ArchiveManager.GetInstance().archiveInfoList)
+            event.reply('reply_query_archive_info_list_by_name', ArchiveManager.GetInstance().GetArchiveInfoByName(file_name))
         })
 
         // 检查 ArchiveManager 是否加载数据库

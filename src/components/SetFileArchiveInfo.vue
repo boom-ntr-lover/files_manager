@@ -7,7 +7,16 @@
         >
             <v-card>
                 <v-card-title>
-                    <span class="text-h5"> {{ fileName }} </span>
+                    <span v-for="(fileLatter, index) in fileName" >
+                        <v-chip
+                            label
+                            outlined
+                            :color="selectedFileLatter.indexOf(index) === -1 ? 'grey lighten-2' : 'blue darken-1'"
+                            @click="OnClickLatter(index)"
+                        >
+                            {{ fileLatter }}
+                        </v-chip>
+                    </span>
                 </v-card-title>
 
                 <v-card-text>
@@ -16,24 +25,29 @@
                             <v-col
                                 cols="12"
                             >
-                                <v-autocomplete
-                                    v-model="select"
-                                    :loading="loading"
-                                    :items="items"
-                                    :search-input.sync="search"
-                                    cache-items
-                                    class="mx-4"
-                                    flat
-                                    hide-no-data
-                                    hide-details
-                                    label="Select Archive"
-                                    solo-inverted
+
+                                <v-simple-table
+                                    dense
+                                    height="140px"
                                 >
-                                </v-autocomplete>
+                                    <template v-slot:default>
+                                        <tbody>
+                                        <tr
+                                            v-for="item in items"
+                                            :key="item.id"
+                                        >
+                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.score }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </template>
+                                </v-simple-table>
+
 
                             </v-col>
                         </v-row>
                     </v-container>
+
                 </v-card-text>
 
                 <v-card-actions>
@@ -59,8 +73,14 @@
 </template>
 
 <script>
+import CreateArchiveInfo from './CreateArchiveInfo.vue'
+
 export default {
     name: "SetFileArchiveInfo",
+
+    components: {
+        CreateArchiveInfo
+    },
 
     data: () => ({
         dialog: false,
@@ -69,7 +89,6 @@ export default {
 
         loading: false,
         items: [],
-        searchInput: "",
         search: null,
         select: null,
         states: [
@@ -77,6 +96,7 @@ export default {
             'Alaska',
         ],
 
+        selectedFileLatter: [],
     }),
     watch: {
         search(val)
@@ -89,17 +109,11 @@ export default {
     {
         ipcRendererApi.on('reply_query_archive_info_list_by_name', function (event, archiveInfoList)
         {
-            this.items = []
-            archiveInfoList.forEach(archiveInfo =>
-            {
-                let archiveName = archiveInfo.name
-                if ((archiveName || '').toLowerCase().indexOf((this.searchInput || '').toLowerCase()) > -1)
-                {
-                    this.items.push(archiveName)
-                }
-            })
-
+            this.items = archiveInfoList
             this.loading = false
+
+            // 执行猜测名称
+
         }.bind(this))
     },
 
@@ -115,18 +129,23 @@ export default {
                     return
 
                 this.fileName = names[0]
+
+                ipcRendererApi.send('query_archive_info_list_by_name', this.fileName)
+                this.loading = true
+            },
+
+            OnClickLatter(index)
+            {
+                if (this.selectedFileLatter.indexOf(index) === -1)
+                    this.selectedFileLatter.push(index)
+                else
+                    this.selectedFileLatter.splice(this.selectedFileLatter.indexOf(index), 1)
             },
 
             SetFileToArchive()
             {
-            },
 
-            querySelections(v)
-            {
-                this.searchInput = v
-                ipcRendererApi.send('query_archive_info_list_by_name')
-                this.loading = true
-            },
+            }
         }
 }
 </script>

@@ -1,6 +1,8 @@
 class ArchiveInfo {
     constructor() {
         this.id = 0
+
+        this.score =0
         this.name = ""
         this.description = ""
         this.tagMask = 0
