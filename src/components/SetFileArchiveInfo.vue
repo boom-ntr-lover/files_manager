@@ -74,6 +74,7 @@
 
 <script>
 import CreateArchiveInfo from './CreateArchiveInfo.vue'
+import FileManager from "@/background/file/FileManager";
 
 export default {
     name: "SetFileArchiveInfo",
@@ -111,9 +112,6 @@ export default {
         {
             this.items = archiveInfoList
             this.loading = false
-
-            // 执行猜测名称
-
         }.bind(this))
     },
 
@@ -130,8 +128,12 @@ export default {
 
                 this.fileName = names[0]
 
-                ipcRendererApi.send('query_archive_info_list_by_name', this.fileName)
-                this.loading = true
+                // 猜测文件名字
+                let fileMan = FileManager.GetInstance()
+                console.log(fileMan)
+
+                // ipcRendererApi.send('query_archive_info_list_by_name', this.fileName)
+                // this.loading = true
             },
 
             OnClickLatter(index)
