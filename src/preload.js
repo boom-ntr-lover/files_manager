@@ -7,7 +7,3 @@ contextBridge.exposeInMainWorld('ipcRendererApi', {
     once: (channel, listener) => ipcRenderer.once(channel, listener),
     on: (channel, listener) => ipcRenderer.on(channel, listener),
 });
-
-// contextBridge.exposeInMainWorld('fileManagerAip', {
-//
-// });
