@@ -23,6 +23,19 @@ class ArchiveInfo {
         this.tagMask = dbData.tag_mask
     }
 
+    InitFromOtherArchiveInfo(other)
+    {
+        this.id = other.id
+        this.name = other.name
+        this.description = other.description
+        this.tagMask = other.tagMask
+    }
+
+    ToCreateDBStringData()
+    {
+        return "('" + this.name + "', '" + this.description + "', " + this.tagMask + ")"
+    }
+
     toString()
     {
         return "ArchiveInfo: id=" + this.id

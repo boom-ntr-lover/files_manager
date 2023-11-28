@@ -84,6 +84,27 @@ class DatabaseManager
             callback(null, row)
         })
     }
+
+    static Exec(sqlStr, callback)
+    {
+        let instance = DatabaseManager.GetInstance()
+        if (!instance.bLoaded)
+        {
+            console.log("Err: Database Not Loaded")
+            return;
+        }
+
+        instance.archiveDB.all(sqlStr, (err, row) =>
+        {
+            if (err)
+            {
+                callback(err)
+                return;
+            }
+
+            callback(null, row)
+        })
+    }
 }
 
 export default DatabaseManager

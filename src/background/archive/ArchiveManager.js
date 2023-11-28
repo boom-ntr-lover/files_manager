@@ -51,8 +51,28 @@ class ArchiveManager
     // 模糊搜索名字相近的 ArchiveInfo
     GetArchiveInfoByName(name)
     {
-        const regex = new RegExp(name, "i")
-        return this.archiveInfoList.filter(archiveInfo => regex.test(name))
+        // const regex = new RegExp(name, "i")
+        return this.archiveInfoList.filter(archiveInfo => archiveInfo.name.startsWith(name))
+    }
+
+    CreateArchiveInfo(archiveInfoParam, callback)
+    {
+        var archiveInfo = new ArchiveInfo()
+        archiveInfo.InitFromOtherArchiveInfo(archiveInfoParam)
+        let sqlStr = "insert into archive_info (name, description, tag_mask) values " + archiveInfo.ToCreateDBStringData();
+
+        DatabaseManager.Exec(sqlStr,(err, datas) =>
+        {
+            if (err)
+            {
+                console.log(err)
+                callback(err, archiveInfo)
+                return
+            }
+
+            this.archiveInfoList.push(archiveInfo)
+            callback(null, archiveInfo)
+        })
     }
 }
 

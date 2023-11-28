@@ -28,9 +28,6 @@ insert into archive_tag (tag_val, active, name) values
     (0x00000020, 1, '动作');
 
 insert into archive_info (name, description, tag_mask) values
-    ('ABC-123', '描述', 0x00000001),
-    ('300NT-024C', '描述', 0x00000002),
-    ('ABC-00set', '描述', 0x00000014),
     ('Fanta', '描述', 0x00000008),
     ('ScaAct', '描述', 0x00000022),
     ('Action', '描述', 0x00000020),

@@ -15,6 +15,13 @@ export default {
             FileManager.GetInstance().ScanFileInfoFromPath(null)
         })
 
+        // 检查 ArchiveManager 是否加载数据库
+        ipcMain.on('check_archive_loaded', (event, arg) =>
+        {
+            let archiveManager = ArchiveManager.GetInstance()
+            event.reply('reply_archive_loaded', archiveManager.bLoaded)
+        })
+
         // Folder 列表
         ipcMain.on('require_folder_list', (event, arg) =>
         {
@@ -37,11 +44,14 @@ export default {
             event.reply('reply_query_archive_info_list_by_name', ArchiveManager.GetInstance().GetArchiveInfoByName(file_name))
         })
 
-        // 检查 ArchiveManager 是否加载数据库
-        ipcMain.on('check_archive_loaded', (event, arg) =>
+        // 创建 Archive
+        ipcMain.on('create_archive_info', (event, archiveInfoParam) =>
         {
-            let archiveManager = ArchiveManager.GetInstance()
-            event.reply('reply_archive_loaded', archiveManager.bLoaded)
+            console.log(archiveInfoParam)
+            ArchiveManager.GetInstance().CreateArchiveInfo(archiveInfoParam, (err, res) =>
+            {
+                event.reply('reply_create_archive_info', err, res)
+            })
         })
 
         // Get Tag List

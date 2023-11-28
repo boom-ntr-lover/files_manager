@@ -21,7 +21,9 @@
 
                 <v-card-text>
                     <v-container>
-                        <v-row>
+                        <v-row
+                            v-if="items.length > 0"
+                        >
                             <v-col
                                 cols="12"
                             >
@@ -43,8 +45,16 @@
                                     </template>
                                 </v-simple-table>
 
-
                             </v-col>
+                        </v-row>
+
+
+                        <v-row>
+                            <v-btn
+                                @click="CreateNewArchiveInfo"
+                            >
+                                CreateNew
+                            </v-btn>
                         </v-row>
                     </v-container>
 
@@ -74,6 +84,7 @@
 
 <script>
 import CreateArchiveInfo from './CreateArchiveInfo.vue'
+import ArchiveInfo from "@/background/archive/ArchiveInfo";
 
 export default {
     name: "SetFileArchiveInfo",
@@ -86,6 +97,7 @@ export default {
         dialog: false,
         fileInfo: null,
         fileName: '',
+        searchName: '',
 
         loading: false,
         items: [],
@@ -103,6 +115,19 @@ export default {
         {
             val && val !== this.select && this.querySelections(val)
         },
+
+        selectedFileLatter()
+        {
+            let queryName = ""
+            for (let i = 0; i < this.fileName.length; i++)
+            {
+                if (i in this.selectedFileLatter)
+                    queryName += this.fileName[i]
+            }
+            this.searchName = queryName
+            ipcRendererApi.send('query_archive_info_list_by_name', queryName)
+            this.loading = true
+        }
     },
 
     created()
@@ -111,6 +136,11 @@ export default {
         {
             this.items = archiveInfoList
             this.loading = false
+        }.bind(this))
+
+        ipcRendererApi.on('reply_create_archive_info', function (event, err, res)
+        {
+            console.log(err, " ", res)
         }.bind(this))
     },
 
@@ -127,8 +157,8 @@ export default {
 
                 this.fileName = names[0]
 
-                // ipcRendererApi.send('query_archive_info_list_by_name', this.fileName)
-                // this.loading = true
+                // 猜测应当场出现的文件名
+                this.selectedFileLatter = [0, 1, 2, 3]
             },
 
             OnClickLatter(index)
@@ -137,6 +167,13 @@ export default {
                     this.selectedFileLatter.push(index)
                 else
                     this.selectedFileLatter.splice(this.selectedFileLatter.indexOf(index), 1)
+            },
+
+            CreateNewArchiveInfo()
+            {
+                let newArchiveInfo = new ArchiveInfo()
+                newArchiveInfo.name = this.searchName
+                ipcRendererApi.send('create_archive_info', newArchiveInfo)
             },
 
             SetFileToArchive()
