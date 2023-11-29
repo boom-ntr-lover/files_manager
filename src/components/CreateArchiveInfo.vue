@@ -1,56 +1,64 @@
 <template>
-    <div class="text-center">
-        <v-dialog
-            v-model="dialog"
-            width="500"
-        >
-            <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                    color="red lighten-2"
-                    dark
-                    v-bind="attrs"
-                    v-on="on"
+    <v-dialog
+        v-model="show_dialog"
+        width="500"
+    >
+        <v-card>
+            <v-container fluid>
+                <v-row
+                    align="center"
                 >
-                    Click Me
-                </v-btn>
-            </template>
-
-            <v-card>
-                <v-container fluid>
-                    <v-row
-                        align="center"
-                    >
-                        <v-col cols="12">
-                            <v-autocomplete
-                                v-model="values"
-                                :items="items"
-                                dense
-                                chips
-                                small-chips
-                                label="Solo"
-                                multiple
-                                solo
-                            ></v-autocomplete>
-                        </v-col>
-                    </v-row>
-                </v-container>
-            </v-card>
-        </v-dialog>
-    </div>
+                    <v-col cols="12">
+                        <v-autocomplete
+                            v-model="values"
+                            :items="items"
+                            dense
+                            chips
+                            small-chips
+                            label="Solo"
+                            multiple
+                            solo
+                        ></v-autocomplete>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-card>
+    </v-dialog>
 </template>
 <script>
 export default {
     name: "CreateArchiveInfo",
 
+    props: ['input_name'],
+
+    watch:
+        {
+        },
+
     data()
     {
         return {
-            dialog: false,
+            show_dialog: false,
 
             items: ['foo', 'bar', 'fizz', 'buzz'],
             values: ['foo', 'bar'],
             value: null,
         }
     },
+
+    methods:
+        {
+            OpenDialog()
+            {
+                this.show_dialog = true
+            },
+
+            CreateArchiveInfo()
+            {
+                // let newArchiveInfo = new ArchiveInfo()
+                // newArchiveInfo.name = this.searchName
+                // ipcRendererApi.send('create_archive_info', newArchiveInfo)
+            }
+        }
 }
 </script>

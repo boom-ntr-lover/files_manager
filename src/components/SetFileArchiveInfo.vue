@@ -1,5 +1,10 @@
 <template>
     <v-row justify="center">
+        <create-archive-info
+            ref="create_archive"
+        >
+        </create-archive-info>
+
         <v-dialog
             v-model="dialog"
             persistent
@@ -171,9 +176,7 @@ export default {
 
             CreateNewArchiveInfo()
             {
-                let newArchiveInfo = new ArchiveInfo()
-                newArchiveInfo.name = this.searchName
-                ipcRendererApi.send('create_archive_info', newArchiveInfo)
+                this.$refs.create_archive.OpenDialog()
             },
 
             SetFileToArchive()
