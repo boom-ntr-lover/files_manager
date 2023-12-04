@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import ArchiveView from '../views/ArchiveView.vue'
 import LoadingView from '../views/LoadingView.vue'
-import HelloWorld from "@/components/HelloWorld.vue";
 import RealFileTreeView from "@/views/RealFileTreeView.vue";
 import FolderViewComponent from "@/components/FolderViewComponent";
 import AppendFileToArchiveView from "@/views/AppendFileToArchiveView.vue";
@@ -18,7 +18,7 @@ const routes = [
             {
                 path: 'archive_view',
                 components: {
-                    content: HelloWorld
+                    content: ArchiveView
                 }
             },
             {
