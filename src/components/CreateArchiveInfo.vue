@@ -8,7 +8,13 @@
         <v-card>
             <v-container fluid>
                 <v-row
-                    align="center"
+                >
+                    <v-col cols="12">
+                        <v-text-field label="Name" v-model="input_name"></v-text-field>
+                    </v-col>
+                </v-row>
+
+                <v-row
                 >
                     <v-col cols="12">
                         <v-autocomplete
@@ -49,8 +55,6 @@
 export default {
     name: "CreateArchiveInfo",
 
-    props: ['input_name'],
-
     watch:
         {
             tag_infos()
@@ -71,6 +75,11 @@ export default {
             value: null,
 
             waiting_tags: false,
+
+            input_name: "",
+
+            // 创建自 FileInfo
+            create_from_file_info: null,
         }
     },
 
@@ -87,19 +96,21 @@ export default {
         ipcRendererApi.on('reply_tag_list', function (event, args)
         {
             this.tag_infos = args
-
-            console.log(this.tag_infos)
-
             this.waiting_tags = false
         }.bind(this))
     },
 
     methods:
         {
-            OpenDialog()
+            OpenCreateArchiveDialog(fromFileInfo)
             {
                 this.show_dialog = true
+                this.create_from_file_info = fromFileInfo
 
+                if (this.create_from_file_info)
+                {
+                    this.input_name = this.create_from_file_info.name
+                }
             },
 
             CreateArchiveInfo()

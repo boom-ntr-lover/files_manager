@@ -44,7 +44,8 @@ async function createWindow()
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
 
             preload: path.join(__dirname, 'preload.js'),
-        }
+        },
+        icon: path.join(__dirname, "public/img/favicon-16x16.png")
     })
 
     GlobalHelper.GetInstance().mainWindow = win

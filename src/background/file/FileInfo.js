@@ -6,6 +6,12 @@ class FileInfo {
 
         this.fileName = fileName
 
+        let names = fileName.split('.')
+        if (names.length > 0)
+        {
+            this.name = names[0]
+        }
+
         this.absPath = ""
 
         // 反向链到 ArchiveInfo

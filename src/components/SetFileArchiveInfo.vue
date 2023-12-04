@@ -155,12 +155,7 @@ export default {
             {
                 this.dialog = true
                 this.fileInfo = fileInfo
-
-                let names = this.fileInfo.fileName.split('.')
-                if (names.length === 0)
-                    return
-
-                this.fileName = names[0]
+                this.fileName = fileInfo.name
 
                 // 猜测应当场出现的文件名
                 this.selectedFileLatter = [0, 1, 2, 3]
@@ -176,7 +171,7 @@ export default {
 
             CreateNewArchiveInfo()
             {
-                this.$refs.create_archive.OpenDialog()
+                this.$refs.create_archive.OpenCreateArchiveDialog(this.fileInfo)
             },
 
             SetFileToArchive()
