@@ -59,9 +59,8 @@ class ArchiveManager
     {
         var archiveInfo = new ArchiveInfo()
         archiveInfo.InitFromOtherArchiveInfo(archiveInfoParam)
-        let sqlStr = "insert into archive_info (name, description, tag_mask) values " + archiveInfo.ToCreateDBStringData();
 
-        DatabaseManager.Exec(sqlStr,(err, datas) =>
+        DatabaseManager.Exec("select * from archive_info order by id desc limit 1",(err, lastArchiveData) =>
         {
             if (err)
             {
@@ -69,8 +68,27 @@ class ArchiveManager
                 return
             }
 
-            this.archiveInfoList.push(archiveInfo)
-            callback(null, archiveInfo)
+            if (lastArchiveData.length == 0)
+            {
+                callback(err, archiveInfo)
+                return
+            }
+
+            let newId = lastArchiveData[0].id + 1
+            archiveInfo.id = newId
+
+            let sqlStr = "insert into archive_info (id, name, description, tag_mask) values " + archiveInfo.ToCreateDBStringData();
+            DatabaseManager.Exec(sqlStr,(err, datas) =>
+            {
+                if (err)
+                {
+                    callback(err, archiveInfo)
+                    return
+                }
+
+                this.archiveInfoList.push(archiveInfo)
+                callback(null, archiveInfo)
+            })
         })
     }
 }

@@ -88,7 +88,7 @@ export default {
         {
             playFile(index)
             {
-                ipcRendererApi.send('test_play_file', this.fileInfoList[index].absPath)
+                ipcRendererApi.send('play_file', this.fileInfoList[index].absPath)
             },
 
             AddToArchive(index)

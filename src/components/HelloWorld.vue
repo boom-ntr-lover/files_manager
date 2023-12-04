@@ -43,7 +43,7 @@ export default {
         {
             TestOpenFile()
             {
-                ipcRendererApi.send('test_play_file')
+                ipcRendererApi.send('play_file')
             }
         },
 

@@ -48,7 +48,6 @@ export default {
         // 创建 Archive
         ipcMain.on('create_archive_info', (event, archiveInfoParam) =>
         {
-            console.log(archiveInfoParam)
             ArchiveManager.GetInstance().CreateArchiveInfo(archiveInfoParam, (err, res) =>
             {
                 event.reply('reply_create_archive_info', err, res)
@@ -69,14 +68,21 @@ export default {
             event.reply('reply_archive_info', archiveManager.archiveInfoList)
         })
 
-        ipcMain.on('test_play_file', (event, filePath) =>
+        // 追加文件到 Archive 上
+        ipcMain.on('add_file_to_archive', (event, arg) =>
+        {
+            let archiveManager = ArchiveManager.GetInstance()
+            event.reply('reply_archive_info', archiveManager.archiveInfoList)
+        })
+
+        // 播放文件
+        ipcMain.on('play_file', (event, filePath) =>
         {
             var res
             if (process.platform === 'darwin')
                 res = exec("open " + filePath);
             else
                 res = exec("start " + filePath);
-
         })
     }
 }

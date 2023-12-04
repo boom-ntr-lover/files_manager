@@ -36,7 +36,6 @@ class AttributeManager
                 let data = datas[i]
                 var tag = new TagInfo()
                 tag.InitFromDB(data)
-                console.log(tag)
                 this.tags.push(tag)
             }
         })

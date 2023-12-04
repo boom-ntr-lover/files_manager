@@ -27,12 +27,12 @@
                 <v-card-text>
                     <v-container>
                         <v-row
-                            v-if="items.length > 0"
+                            v-if="archiveInfoList.length > 0"
                         >
                             <v-col
                                 cols="12"
                             >
-
+                                <!--匹配的档案信息-->
                                 <v-simple-table
                                     dense
                                     height="140px"
@@ -40,11 +40,22 @@
                                     <template v-slot:default>
                                         <tbody>
                                         <tr
-                                            v-for="item in items"
-                                            :key="item.id"
+                                            v-for="archiveInfo in archiveInfoList"
+                                            :key="archiveInfo.id"
                                         >
-                                            <td>{{ item.name }}</td>
-                                            <td>{{ item.score }}</td>
+                                            <td>{{ archiveInfo.name }}</td>
+                                            <td>{{ archiveInfo.score }}</td>
+                                            <td>
+                                                <v-btn
+                                                    icon
+                                                    color="indigo"
+                                                    @click="AddFileInfoToArchive(archiveInfo)"
+                                                >
+                                                    <v-icon dark>
+                                                        mdi-plus
+                                                    </v-icon>
+                                                </v-btn>
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </template>
@@ -52,7 +63,6 @@
 
                             </v-col>
                         </v-row>
-
 
                         <v-row>
                             <v-btn
@@ -105,7 +115,7 @@ export default {
         searchName: '',
 
         loading: false,
-        items: [],
+        archiveInfoList: [],
         search: null,
         select: null,
         states: [
@@ -139,7 +149,7 @@ export default {
     {
         ipcRendererApi.on('reply_query_archive_info_list_by_name', function (event, archiveInfoList)
         {
-            this.items = archiveInfoList
+            this.archiveInfoList = archiveInfoList
             this.loading = false
         }.bind(this))
 
@@ -177,6 +187,11 @@ export default {
             SetFileToArchive()
             {
 
+            },
+
+            AddFileInfoToArchive(archiveInfo)
+            {
+                ipcRendererApi.send('add_file_to_archive', this.fileInfo, archiveInfo)
             }
         }
 }

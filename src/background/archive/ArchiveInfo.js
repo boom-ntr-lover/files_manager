@@ -33,7 +33,7 @@ class ArchiveInfo {
 
     ToCreateDBStringData()
     {
-        return "('" + this.name + "', '" + this.description + "', " + this.tagMask + ")"
+        return "('" + this.id + "', '" + this.name + "', '" + this.description + "', " + this.tagMask + ")"
     }
 
     toString()
