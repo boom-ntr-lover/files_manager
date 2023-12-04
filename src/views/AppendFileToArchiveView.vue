@@ -98,8 +98,6 @@ export default {
                         break
                     }
                 }
-
-                console.log(this.fileInfoList.length)
             }
 
         }.bind(this))

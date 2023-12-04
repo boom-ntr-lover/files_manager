@@ -108,7 +108,6 @@ class ArchiveManager
 
     AddFileToArchive(fileInfo, archiveInfo)
     {
-        console.log(fileInfo, archiveInfo)
     }
 }
 

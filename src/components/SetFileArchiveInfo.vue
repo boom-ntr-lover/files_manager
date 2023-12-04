@@ -202,7 +202,6 @@ export default {
 
             AddFileInfoToArchive(archiveInfo)
             {
-                console.log("Add ", archiveInfo)
                 ipcRendererApi.send('add_file_to_archive', {
                     fileInfo: this.fileInfo,
                     archiveInfo: archiveInfo
