@@ -88,7 +88,7 @@ export default {
                 archiveInfo.AddFileInfo(fileInfo)
                 fileInfo.pArchiveInfo = archiveInfo
 
-                event.reply('reply_add_file_to_archive', true)
+                event.reply('reply_add_file_to_archive', true, fileInfo, archiveInfo)
             }
             else
             {

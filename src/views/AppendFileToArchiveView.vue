@@ -55,7 +55,7 @@ export default {
     computed: {
         indexs()
         {
-            return Array.from({length: this.fileInfoList.length}, (k, v) => v)
+            return Array.from({ length: this.fileInfoList.length}, (k, v) => v)
         },
     },
 
@@ -80,6 +80,27 @@ export default {
             {
                 return fileInfo.pArchiveInfo == null
             })
+
+        }.bind(this))
+
+        // 响应追加文件到文档
+        ipcRendererApi.on('reply_add_file_to_archive', function (event, res, fileInfo, archiveInfo)
+        {
+            if (res)
+            {
+                let removeId = fileInfo.id
+                for (let i = 0; i < this.fileInfoList.length; i++)
+                {
+                    let filterFileInfo = this.fileInfoList[i]
+                    if (filterFileInfo.id === removeId)
+                    {
+                        this.fileInfoList.splice(i, 1)
+                        break
+                    }
+                }
+
+                console.log(this.fileInfoList.length)
+            }
 
         }.bind(this))
     },

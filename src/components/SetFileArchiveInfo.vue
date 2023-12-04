@@ -163,7 +163,10 @@ export default {
         // 响应追加文件到文档
         ipcRendererApi.on('reply_add_file_to_archive', function (event, res)
         {
-            console.log(res)
+            if (res)
+            {
+                this.dialog = false
+            }
         }.bind(this))
     },
 
