@@ -8,10 +8,10 @@ class ArchiveInfo {
         this.tagMask = 0
 
         // List Of FileInfo
-        this.filtInfoList = {}
+        this.fileInfoList = []
 
         // List Of Attribute
-        this.attributeInfoList = {}
+        this.attributeInfoList = []
     }
 
     /// from db archive_info
@@ -42,6 +42,11 @@ class ArchiveInfo {
             + " name=" + this.name
             + " description=" + this.description
             + " tagMask=" + this.tagMask
+    }
+
+    AddFileInfo(fileInfo)
+    {
+        this.fileInfoList.push(fileInfo)
     }
 }
 

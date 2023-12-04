@@ -55,6 +55,20 @@ class ArchiveManager
         return this.archiveInfoList.filter(archiveInfo => archiveInfo.name.startsWith(name))
     }
 
+    GetArchiveInfoById(id)
+    {
+        for (let i = 0; i < this.archiveInfoList.length; i++)
+        {
+            var archiveInfo = this.archiveInfoList[i]
+            if (archiveInfo.id == id)
+            {
+                return archiveInfo
+            }
+        }
+
+        return null
+    }
+
     CreateArchiveInfo(archiveInfoParam, callback)
     {
         var archiveInfo = new ArchiveInfo()
@@ -90,6 +104,11 @@ class ArchiveManager
                 callback(null, archiveInfo)
             })
         })
+    }
+
+    AddFileToArchive(fileInfo, archiveInfo)
+    {
+        console.log(fileInfo, archiveInfo)
     }
 }
 

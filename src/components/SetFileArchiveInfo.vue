@@ -147,15 +147,23 @@ export default {
 
     created()
     {
+        // 响应查询档案信息列表
         ipcRendererApi.on('reply_query_archive_info_list_by_name', function (event, archiveInfoList)
         {
             this.archiveInfoList = archiveInfoList
             this.loading = false
         }.bind(this))
 
+        // 响应创建新的档案信息
         ipcRendererApi.on('reply_create_archive_info', function (event, err, res)
         {
             ipcRendererApi.send('query_archive_info_list_by_name', this.searchName)
+        }.bind(this))
+
+        // 响应追加文件到文档
+        ipcRendererApi.on('reply_add_file_to_archive', function (event, res)
+        {
+            console.log(res)
         }.bind(this))
     },
 
@@ -191,7 +199,11 @@ export default {
 
             AddFileInfoToArchive(archiveInfo)
             {
-                ipcRendererApi.send('add_file_to_archive', this.fileInfo, archiveInfo)
+                console.log("Add ", archiveInfo)
+                ipcRendererApi.send('add_file_to_archive', {
+                    fileInfo: this.fileInfo,
+                    archiveInfo: archiveInfo
+                })
             }
         }
 }

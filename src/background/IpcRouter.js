@@ -69,10 +69,31 @@ export default {
         })
 
         // 追加文件到 Archive 上
-        ipcMain.on('add_file_to_archive', (event, arg) =>
+        ipcMain.on('add_file_to_archive', (event, args) =>
         {
-            let archiveManager = ArchiveManager.GetInstance()
-            event.reply('reply_archive_info', archiveManager.archiveInfoList)
+            let inputFileInfo = args.fileInfo
+            let inputArchiveInfo = args.archiveInfo
+
+            let fileInfo = FileManager.GetInstance().GetFileInfo(inputFileInfo.id)
+            let pArchiveInfo = fileInfo.pArchiveInfo
+            if (pArchiveInfo)
+            {
+                event.reply('reply_add_file_to_archive', false, "Already Have PreArchive")
+                return
+            }
+
+            let archiveInfo = ArchiveManager.GetInstance().GetArchiveInfoById(inputArchiveInfo.id)
+            if (archiveInfo)
+            {
+                archiveInfo.AddFileInfo(fileInfo)
+                fileInfo.pArchiveInfo = archiveInfo
+
+                event.reply('reply_add_file_to_archive', true)
+            }
+            else
+            {
+                event.reply('reply_add_file_to_archive', false, "Cannot Find Archive")
+            }
         })
 
         // 播放文件

@@ -132,6 +132,7 @@ class FileManager
             }
         }
     }
+
     trimFilenameToBytes(filename, maxBytes = 255)
     {
         // By extracting the file extension from the filename,
@@ -153,7 +154,17 @@ class FileManager
 
         let archiveInfo = fileInfo.pArchiveInfo
         if (archiveInfo != null)
-            archiveInfo.filtInfoList.splice(archiveInfo.filtInfoList.indexOf(fileInfo), 1)
+            archiveInfo.fileInfoList.splice(archiveInfo.fileInfoList.indexOf(fileInfo), 1)
+    }
+
+    GetFileInfo(id)
+    {
+        for (let i = 0; i < this.fileInfoList.length; i++)
+        {
+            let fileInfo = this.fileInfoList[i]
+            if (fileInfo.id === id)
+                return fileInfo
+        }
     }
 
     // 根据ID 获取 Folder
