@@ -123,6 +123,7 @@ class FileManager
                     {
                         let fileInfo = new FileInfo(fileName)
                         fileInfo.absPath = filePath
+                        console.log(filePath)
                         fileInfo.folderInfo = folderInfo
                         fileInfoList.push(fileInfo)
 

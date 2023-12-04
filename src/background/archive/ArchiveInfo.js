@@ -10,6 +10,9 @@ class ArchiveInfo {
         // List Of FileInfo
         this.fileInfoList = []
 
+        // Default File Index
+        this.defaultFileIndex = 0
+
         // List Of Attribute
         this.attributeInfoList = []
     }

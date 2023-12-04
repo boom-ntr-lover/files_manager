@@ -6,7 +6,9 @@ create table if not exists archive_info (
 
     description text,                       -- 文档描述
 
-    tag_mask integer not null               -- 标签掩码 (archive_tag)
+    tag_mask integer not null,              -- 标签掩码 (archive_tag)
+
+    file_path text not null                 -- 文档路径列表
 );
 
 -- 文档标签
@@ -17,6 +19,13 @@ create table if not exists archive_tag (
     active integer not null,                -- 是否激活
 
     name text not null                      -- 标签名称
+);
+
+-- File
+drop table if exists archive_tag;
+create table if not exists archive_tag (
+    archive_id integer not null,            -- 文档id (archive_info)
+    file_path text not null                 -- 文件路径
 );
 
 insert into archive_tag (id, tag_val, active, name) values
