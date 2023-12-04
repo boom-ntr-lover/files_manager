@@ -65,7 +65,6 @@ class ArchiveManager
         {
             if (err)
             {
-                console.log(err)
                 callback(err, archiveInfo)
                 return
             }

@@ -145,7 +145,7 @@ export default {
 
         ipcRendererApi.on('reply_create_archive_info', function (event, err, res)
         {
-            console.log(err, " ", res)
+            ipcRendererApi.send('query_archive_info_list_by_name', this.searchName)
         }.bind(this))
     },
 

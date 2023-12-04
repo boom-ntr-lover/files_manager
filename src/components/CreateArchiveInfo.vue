@@ -40,10 +40,12 @@
                 >
                     Close
                 </v-btn>
+
                 <v-btn
                     color="blue darken-1"
                     text
-                    @click="show_dialog = false"
+                    :loading="waiting_create"
+                    @click="CreateArchiveInfo()"
                 >
                     Save
                 </v-btn>
@@ -52,6 +54,8 @@
     </v-dialog>
 </template>
 <script>
+import ArchiveInfo from "@/background/archive/ArchiveInfo";
+
 export default {
     name: "CreateArchiveInfo",
 
@@ -75,6 +79,7 @@ export default {
             value: null,
 
             waiting_tags: false,
+            waiting_create: false,
 
             input_name: "",
 
@@ -98,6 +103,12 @@ export default {
             this.tag_infos = args
             this.waiting_tags = false
         }.bind(this))
+
+        ipcRendererApi.on('reply_create_archive_info', function (event, err, res)
+        {
+            this.waiting_create = false
+            this.show_dialog = false
+        }.bind(this))
     },
 
     methods:
@@ -109,15 +120,17 @@ export default {
 
                 if (this.create_from_file_info)
                 {
-                    this.input_name = this.create_from_file_info.name
+                    this.input_name = this.create_from_file_info.name.toUpperCase()
                 }
             },
 
             CreateArchiveInfo()
             {
-                // let newArchiveInfo = new ArchiveInfo()
-                // newArchiveInfo.name = this.searchName
-                // ipcRendererApi.send('create_archive_info', newArchiveInfo)
+                this.waiting_create = true
+
+                let newArchiveInfo = new ArchiveInfo()
+                newArchiveInfo.name = this.input_name
+                ipcRendererApi.send('create_archive_info', newArchiveInfo)
             }
         }
 }
