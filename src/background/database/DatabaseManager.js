@@ -2,6 +2,7 @@ import * as sqlite3 from "sqlite3";
 import fs from 'fs'
 import ArchiveManager from "@/background/archive/ArchiveManager";
 import FileManager from "@/background/file/FileManager";
+import AttributeManager from "@/background/attribute/AttributeManager";
 
 class DatabaseManager
 {
@@ -59,6 +60,7 @@ class DatabaseManager
                 this.archiveDB = db
 
                 // 初始化其他模块中，关于数据库的部分
+                AttributeManager.GetInstance().RefreshDBTagsFromDB()
                 ArchiveManager.GetInstance().InitFromDB()
             })
         });

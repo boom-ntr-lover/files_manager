@@ -19,19 +19,19 @@ create table if not exists archive_tag (
     name text not null                      -- 标签名称
 );
 
-insert into archive_tag (tag_val, active, name) values
-    (0x00000001, 1, '冒险'),
-    (0x00000002, 1, '惊悚'),
-    (0x00000004, 1, '爱情'),
-    (0x00000008, 1, '科幻'),
-    (0x00000010, 1, '搞笑'),
-    (0x00000020, 1, '动作');
+insert into archive_tag (id, tag_val, active, name) values
+    (1, 0x00000001, 1, '冒险'),
+    (2, 0x00000002, 1, '惊悚'),
+    (3, 0x00000004, 1, '爱情'),
+    (4, 0x00000008, 1, '科幻'),
+    (5, 0x00000010, 1, '搞笑'),
+    (6, 0x00000020, 1, '动作');
 
-insert into archive_info (name, description, tag_mask) values
-    ('Fanta', '描述', 0x00000008),
-    ('ScaAct', '描述', 0x00000022),
-    ('Action', '描述', 0x00000020),
-    ('play_dir2', '描述', 0x00000020),
-    ('play', '描述', 0x00000020),
-    ('game', '描述', 0x00000020),
-    ('play_dir1', '描述', 0x00000020);
+insert into archive_info (id, name, description, tag_mask) values
+    (1, 'Fanta', '描述', 0x00000008),
+    (2, 'ScaAct', '描述', 0x00000022),
+    (3, 'Action', '描述', 0x00000020),
+    (4, 'play_dir2', '描述', 0x00000020),
+    (5, 'play', '描述', 0x00000020),
+    (6, 'game', '描述', 0x00000020),
+    (7, 'play_dir1', '描述', 0x00000020);

@@ -1,4 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron')
+const AttributeManager = require('@/background/attribute/AttributeManager');
 
 contextBridge.exposeInMainWorld('ipcRendererApi', {
     send: (channel, args) => ipcRenderer.send(channel, args),

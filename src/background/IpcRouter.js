@@ -2,6 +2,7 @@ import ArchiveManager from "@/background/archive/ArchiveManager";
 import FileManager from "@/background/file/FileManager";
 import EventHelper from "@/background/util/EventHelper";
 import {app} from "electron";
+import AttributeManager from "@/background/attribute/AttributeManager";
 
 const { ipcMain, webContents} = require("electron");
 const { execFile, exec } = require("child_process")
@@ -55,6 +56,13 @@ export default {
         })
 
         // Get Tag List
+        ipcMain.on('require_tag_list', (event, arg) =>
+        {
+            let attributeMgr = AttributeManager.GetInstance()
+            event.reply('reply_tag_list', attributeMgr.tags)
+        })
+
+        // Get Archive List
         ipcMain.on('get_archive_info', (event, arg) =>
         {
             let archiveManager = ArchiveManager.GetInstance()
